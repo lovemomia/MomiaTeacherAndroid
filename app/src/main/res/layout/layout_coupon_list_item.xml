@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.youxing.sogoteacher.mine.views.CouponListItem xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_coupon"/>
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥16"
+            android:layout_gravity="center"
+            android:textColor="@color/text_yellow"
+            android:layout_marginTop="10dp"/>
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_deep_gray"
+            android:textSize="@dimen/text_medium"
+            android:text="全场通用红包"/>
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_light_gray"
+            android:textSize="@dimen/text_small"
+            android:text="消费满50可用"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_light_gray"
+            android:textSize="@dimen/text_small"
+            android:text="全场通用红包"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_coupon_tag_green"/>
+
+</com.youxing.sogoteacher.mine.views.CouponListItem>

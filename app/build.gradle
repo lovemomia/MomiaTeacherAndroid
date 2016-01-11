@@ -1,0 +1,80 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.0"
+
+    defaultConfig {
+        applicationId "com.youxing.sogoteacher"
+        minSdkVersion 9
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0.0"
+        manifestPlaceholders = [CHANNEL_NAME:"Unspecified"]
+    }
+    signingConfigs {
+        myConfig{
+            storeFile file("youxing.keystore")
+            storePassword "111111"
+            keyAlias "youxing.keystore"
+            keyPassword "111111"
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig  signingConfigs.myConfig
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+    productFlavors {
+        yingyongbao {
+            manifestPlaceholders = [ CHANNEL_NAME:"yingyongbao"]
+        }
+        umeng {
+            manifestPlaceholders = [ CHANNEL_NAME:"umeng" ]
+        }
+        wandoujia {
+            manifestPlaceholders = [ CHANNEL_NAME:"wandoujia" ]
+        }
+        songguo {
+            manifestPlaceholders = [ CHANNEL_NAME:"songguo" ]
+        }
+        xiaomi {
+            manifestPlaceholders = [ CHANNEL_NAME:"xiaomi" ]
+        }
+        baidu {
+            manifestPlaceholders = [ CHANNEL_NAME:"baidu" ]
+        }
+        baidu91 {
+            manifestPlaceholders = [ CHANNEL_NAME:"baidu91" ]
+        }
+        anzhuo {
+            manifestPlaceholders = [ CHANNEL_NAME:"anzhuo" ]
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v4:21.0.2'
+    //    compile 'com.android.support:appcompat-v7:21.0.2'
+    compile 'com.android.support:gridlayout-v7:21.0.2'
+    compile project(':common')
+    compile files('libs/libammsdk.jar')
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
+        exclude module: 'support-v4'
+    }
+    compile files('libs/umeng-update-v2.6.0.1.jar')
+}

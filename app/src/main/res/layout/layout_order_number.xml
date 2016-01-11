@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.youxing.sogoteacher.order.views.OrderNumberItem xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+
+    <TextView
+        android:id="@id/price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="2成人1儿童"
+        android:layout_gravity="center_vertical"
+        android:textSize="@dimen/text_medium"
+        android:textColor="@color/text_deep_gray"/>
+
+    <include android:id="@+id/stepper"
+        layout="@layout/layout_stepper"/>
+
+</com.youxing.sogoteacher.order.views.OrderNumberItem>

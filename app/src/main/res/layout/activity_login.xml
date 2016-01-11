@@ -1,0 +1,94 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
+
+        <include layout="@layout/layout_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/text_deep_gray"
+                android:text="手机"
+                android:paddingRight="15dp"/>
+
+            <EditText
+                android:id="@+id/login_phone_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/text_deep_gray"
+                android:hint="请输入手机号"
+                android:inputType="number"
+                android:background="@null"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/layout_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/text_deep_gray"
+                android:text="密码"
+                android:paddingRight="15dp"/>
+
+            <EditText
+                android:id="@+id/login_pwd_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/text_deep_gray"
+                android:hint="请输入密码"
+                android:password="true"
+                android:background="@null"/>
+
+            <include layout="@layout/layout_divider"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/login_forget_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_medium"
+            android:textColor="@color/app_theme"
+            android:text="忘记密码"
+            android:padding="15dp"
+            android:layout_gravity="right"/>
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="登录"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_large"
+            android:padding="10dp"
+            android:background="@drawable/btn_shape_green"
+            android:layout_margin="20dp"/>
+
+    </LinearLayout>
+
+</ScrollView>
+
+

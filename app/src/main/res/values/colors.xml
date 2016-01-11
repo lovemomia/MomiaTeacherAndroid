@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="app_theme">#00c49d</color>
+
+    <!-- 背景颜色 -->
+    <color name="bg_title_button_clicked">#189584</color>
+    <color name="bg_section">#F4F4F4</color>
+    <color name="bg_button_normal">#f67531</color>
+    <color name="bg_button_selected">#CD3333</color>
+    <color name="bg_button_disable">#999999</color>
+    <color name="bg_divider">#f1f1f1</color>
+    <color name="bg_image">#CCCCCC</color>
+    <color name="bg_window">#f1f1f1</color>
+    <color name="bg_dot_normal">#99f1f1f1</color>
+    <color name="bg_dot_select">#991ebba6</color>
+
+    <!-- 基本颜色 -->
+    <color name="red">#FF3030</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- 字体颜色 -->
+    <color name="text_dark">#000000</color>
+    <color name="text_deep_gray">#333333</color>
+    <color name="text_gray">#666666</color>
+    <color name="text_light_gray">#999999</color>
+    <color name="text_red">#F67531</color>
+    <color name="text_yellow">#FFCC06</color>
+    <color name="text_blue">#1ebba6</color>
+
+</resources>

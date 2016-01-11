@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.youxing.sogoteacher.home.views.ProductCalendarHeader xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:paddingLeft="10dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp">
+
+    <TextView
+        android:id="@+id/day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="40"
+        android:textSize="30sp"
+        android:paddingRight="10dp"
+        android:textColor="@color/text_deep_gray"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/text_small"
+            android:text="8月"/>
+
+        <TextView
+            android:id="@+id/week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/text_small"
+            android:text="星期六"/>
+
+    </LinearLayout>
+
+</com.youxing.sogoteacher.home.views.ProductCalendarHeader>

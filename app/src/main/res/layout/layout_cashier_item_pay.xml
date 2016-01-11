@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.youxing.sogoteacher.pay.views.CashierPayItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_alipay"
+        android:layout_marginRight="10dp"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="支付宝"
+            android:textColor="@color/text_red"
+            android:layout_marginBottom="5dp"
+            android:textSize="@dimen/text_medium"/>
+
+        <TextView
+            android:id="@+id/subTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="支付宝帐号支付，银行卡支付"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/text_small"/>
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:clickable="false"
+        android:checked="false"/>
+
+</com.youxing.sogoteacher.pay.views.CashierPayItemView>

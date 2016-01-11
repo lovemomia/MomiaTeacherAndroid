@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <!-- 多加的一层看似无用的布局是为了解决添加到容器中时因为不能设置高度，造成填满整个屏幕的问题 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/tab_icon"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:scaleType="centerInside"
+            />
+
+        <TextView
+            android:id="@+id/tab_text"
+            style="@style/TabBarItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp" />
+    </LinearLayout>
+
+</LinearLayout>

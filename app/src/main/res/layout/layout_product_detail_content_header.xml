@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.youxing.sogoteacher.product.views.ProductDetailContentHeaderView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/text_deep_gray"
+        android:textSize="@dimen/text_medium"
+        android:text="查看图文详情"/>
+
+
+    <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow"
+        android:visibility="gone"/>
+
+</com.youxing.sogoteacher.product.views.ProductDetailContentHeaderView>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_logo_circle"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"/>
+
+    <TextView
+        android:id="@+id/pay_result_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="您已购买成功"
+        android:textColor="@color/text_deep_gray"
+        android:textSize="@dimen/text_large"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/pay_result_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="活动前一天，或者活动发生变更，都会有短信通知您"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/text_medium"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:layout_marginTop="30dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/pay_result_left_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="约伴"
+            android:background="@drawable/btn_shape_red"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"/>
+
+        <Button
+            android:id="@+id/pay_result_right_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="查看订单"
+            android:background="@drawable/btn_shape_green"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+</LinearLayout>

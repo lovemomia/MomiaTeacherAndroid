@@ -1,0 +1,196 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
+
+        <include layout="@layout/layout_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/text_deep_gray"
+                android:text="昵称"
+                android:paddingRight="15dp" />
+
+            <EditText
+                android:id="@+id/register_nickname_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/text_deep_gray"
+                android:hint="请输入昵称"
+                android:background="@null"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/layout_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/text_deep_gray"
+                android:text="密码"
+                android:paddingRight="15dp"/>
+
+            <EditText
+                android:id="@+id/register_pwd_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/text_deep_gray"
+                android:hint="请输入密码"
+                android:password="true"
+                android:background="@null"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/layout_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/text_deep_gray"
+                android:text="手机"
+                android:paddingRight="15dp"
+                android:id="@+id/register_nickname" />
+
+            <EditText
+                android:id="@+id/register_phone_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/text_deep_gray"
+                android:hint="请输入手机号"
+                android:inputType="number"
+                android:background="@null"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/layout_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/text_deep_gray"
+                android:text="验证码"
+                android:paddingRight="15dp" />
+
+            <EditText
+                android:id="@+id/register_code_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/text_deep_gray"
+                android:hint="请输入验证码"
+                android:background="@null"/>
+
+            <Button
+                android:id="@+id/register_get_code_btn"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_shape_green"
+                android:padding="5dp"
+                android:textColor="@color/btn_text"
+                android:textSize="@dimen/text_medium"
+                android:text="获取"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/layout_divider"/>
+
+        <Button
+            android:id="@+id/register_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="注册"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_large"
+            android:padding="10dp"
+            android:background="@drawable/btn_shape_green"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="40dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp">
+
+            <CheckBox
+                android:id="@+id/register_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/ic_checkbox"
+                android:checked="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/text_gray"
+                android:text="我已阅读并同意"
+                android:paddingTop="15dp"
+                android:paddingLeft="15dp"
+                android:paddingBottom="15dp"/>
+
+            <TextView
+                android:id="@+id/register_service_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/app_theme"
+                android:text="哆啦亲子用户服务协议"
+                android:paddingTop="15dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="15dp"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>
