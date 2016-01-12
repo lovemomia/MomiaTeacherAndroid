@@ -126,7 +126,7 @@ public class MineFragment extends SGFragment implements AdapterView.OnItemClickL
                     Account account = AccountService.instance().account();
                     headerView.getAvartaIv().setImageUrl(account.getAvatar());
                     headerView.getNameTv().setText(account.getNickName());
-                    headerView.getAgeTv().setText( account.getAgeOfChild());
+                    headerView.getAgeTv().setText( account.getMobile());
                     view = headerView;
 
                 } else {

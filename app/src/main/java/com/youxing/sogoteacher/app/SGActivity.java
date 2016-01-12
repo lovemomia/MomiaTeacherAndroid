@@ -16,6 +16,7 @@ import com.youxing.common.app.YXActivity;
 import com.youxing.sogoteacher.R;
 import com.youxing.sogoteacher.RootTabActivity;
 import com.youxing.sogoteacher.login.LoginActivity;
+import com.youxing.sogoteacher.views.EmptyView;
 import com.youxing.sogoteacher.views.ProgressHUD;
 import com.youxing.sogoteacher.views.TitleBar;
 
@@ -125,6 +126,12 @@ public class SGActivity extends YXActivity {
     }
 
     // *************** UI操作 ***************
+
+    public void showEmptyView(String msg) {
+        EmptyView emptyView = EmptyView.create(this);
+        emptyView.setMessage(msg);
+        setContentView(emptyView);
+    }
 
     public void showLoadingDialog(Context context) {
         showLoadingDialog(context, null, null);

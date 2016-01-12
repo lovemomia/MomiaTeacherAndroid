@@ -7,9 +7,12 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/text_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/text_deep_gray"
         android:textSize="@dimen/text_medium"
         android:text="姓名"/>
 
@@ -17,7 +20,7 @@
         android:id="@+id/input"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|right"
         android:textColor="@color/text_deep_gray"
         android:textSize="@dimen/text_medium"
         android:hint="请输入您的姓名"

@@ -134,6 +134,7 @@
     <orderEntry type="library" exported="" name="libammsdk" level="project" />
     <orderEntry type="library" exported="" name="android-auto-scroll-view-pager-1.1.2" level="project" />
     <orderEntry type="library" exported="" name="fastjson-1.2.6" level="project" />
+    <orderEntry type="module" module-name="photopicker" exported="" />
     <orderEntry type="module" module-name="common" exported="" />
   </component>
 </module>

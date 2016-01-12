@@ -11,6 +11,14 @@ public class SGMappingManager extends MappingManager {
         // 个人信息
         putPage("personinfo", new MappingPage("personinfo", true));
 
+        // 成为助教
+        putPage("applyteacher", new MappingPage("applyteacher", true));
+
+        // 添加工作经历
+        putPage("editexp", new MappingPage("editexp", true));
+
+        // 添加教育经历
+        putPage("editedu", new MappingPage("editedu", true));
     }
 
 }

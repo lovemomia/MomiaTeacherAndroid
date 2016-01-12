@@ -202,6 +202,38 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.youxing.sogoteacher.apply.EditExpActivity"
+            android:label="编辑工作经历"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="editexp"
+                    android:scheme="sgteacher" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.youxing.sogoteacher.apply.EditEduActivity"
+            android:label="编辑教育经历"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="editedu"
+                    android:scheme="sgteacher" />
+            </intent-filter>
+        </activity>
+
 
         <!-- UMeng-->
         <meta-data android:value="56930ed1e0f55a5a020024d1" android:name="UMENG_APPKEY"></meta-data>
