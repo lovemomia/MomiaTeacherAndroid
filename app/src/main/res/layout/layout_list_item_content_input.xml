@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.youxing.sogoteacher.apply.views.ContentInputListItem xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/text_deep_gray"
+        android:textSize="@dimen/text_medium"
+        android:text="工作内容"/>
+
+    <EditText
+        android:id="@+id/input"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top"
+        android:textColor="@color/text_deep_gray"
+        android:textSize="@dimen/text_medium"
+        android:lines="8"
+        android:padding="5dp"
+        android:maxLength="500"
+        android:background="@color/bg_input"/>
+
+</com.youxing.sogoteacher.apply.views.ContentInputListItem>

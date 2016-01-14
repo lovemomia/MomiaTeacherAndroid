@@ -36,7 +36,7 @@ public class AboutActivity extends SGActivity implements AdapterView.OnItemClick
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         GroupStyleAdapter.IndexPath indexPath = adapter.getIndexForPosition(position);
         if (indexPath.row == 0) {
-            startActivity("duola://web?url=http://www.duolaqinzi.com/agreement.html");
+            startActivity("sgteacher://web?url=http://www.duolaqinzi.com/agreement.html");
         }
     }
 

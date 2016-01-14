@@ -78,4 +78,5 @@ dependencies {
     }
     compile files('libs/umeng-update-v2.6.0.1.jar')
     compile project(path: ':photopicker')
+    compile "cn.aigestudio.wheelpicker:WheelPicker:1.0.3"
 }

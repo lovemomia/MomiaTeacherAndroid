@@ -6,8 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -25,10 +24,8 @@ import com.alibaba.fastjson.JSON;
 import com.lling.photopicker.PhotoPickerActivity;
 import com.youxing.common.adapter.GroupStyleAdapter;
 import com.youxing.common.app.Constants;
-import com.youxing.common.app.Enviroment;
 import com.youxing.common.model.BaseModel;
 import com.youxing.common.model.UploadImageModel;
-import com.youxing.common.services.account.AccountService;
 import com.youxing.common.services.http.CacheType;
 import com.youxing.common.services.http.HttpService;
 import com.youxing.common.services.http.RequestHandler;
@@ -38,13 +35,11 @@ import com.youxing.common.views.CircularImage;
 import com.youxing.sogoteacher.R;
 import com.youxing.sogoteacher.app.SGActivity;
 import com.youxing.sogoteacher.apply.views.AddExpItem;
-import com.youxing.sogoteacher.model.AccountModel;
 import com.youxing.sogoteacher.model.ApplyTeacherModel;
 import com.youxing.sogoteacher.model.Education;
 import com.youxing.sogoteacher.model.Experience;
 import com.youxing.sogoteacher.utils.PhotoPicker;
 import com.youxing.sogoteacher.views.InputListItem;
-import com.youxing.sogoteacher.views.SectionView;
 import com.youxing.sogoteacher.views.SimpleListItem;
 
 import org.apache.http.NameValuePair;
@@ -58,11 +53,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * 成为助教
+ *
  * Created by Jun Deng on 16/1/11.
  */
 public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnItemClickListener, InputListItem.InputChangeListener {
 
-    private static final int PICK_PHOTO = 1;
+    private static final int REQUEST_CODE_PICK_PHOTO = 1;
+    private static final int REQUEST_CODE_EDIT_EXP = 2;
+    private static final int REQUEST_CODE_EDIT_EDU = 3;
 
     private Adapter adapter;
     private PhotoPicker photoPicker;
@@ -172,6 +171,22 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
             } else if (row == 4) {
                 selectBirthday();
             }
+
+        } else if (section == 1) {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("sgteacher://editexp"));
+            if (row < model.getData().getExperiences().size()) {
+                Experience exp = model.getData().getExperiences().get(row);
+                i.putExtra("exp", exp);
+            }
+            startActivityForResult(i, REQUEST_CODE_EDIT_EXP);
+
+        } else {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("sgteacher://editedu"));
+            if (row < model.getData().getEducations().size()) {
+                Education edu = model.getData().getEducations().get(row);
+                i.putExtra("edu", edu);
+            }
+            startActivityForResult(i, REQUEST_CODE_EDIT_EDU);
         }
     }
 
@@ -188,36 +203,11 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
     }
 
     private void pickPhoto() {
-//        if (photoPicker == null) {
-//            photoPicker = new PhotoPicker(ApplyTeacherActivity.this);
-//        }
-//        AlertDialog.Builder builder = new AlertDialog.Builder(ApplyTeacherActivity.this);
-//        builder.setItems(new String[]{"拍照", "从手机相册里选择"}, new DialogInterface.OnClickListener() {
-//
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                switch (which) {
-//                    case 0:
-//                        // take a new photo
-//                        photoPicker.doTakePhoto();
-//                        break;
-//
-//                    case 1:
-//                        // pick a photo from gallery
-//                        photoPicker.doPickPhotoFromGallery();
-//                        break;
-//                }
-//            }
-//        });
-//        Dialog dialog = builder.create();
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.show();
-
         Intent intent = new Intent(ApplyTeacherActivity.this, PhotoPickerActivity.class);
         intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
         intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_SINGLE);
         intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, 1);
-        startActivityForResult(intent, PICK_PHOTO);
+        startActivityForResult(intent, REQUEST_CODE_PICK_PHOTO);
     }
 
     private void chooseSex() {
@@ -272,44 +262,8 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK) {
-//            String strImgPath;
-//            switch (requestCode) {
-//                case PhotoPicker.REQUEST_CODE_CAMERA:
-//                    strImgPath = photoPicker.strImgPath();
-//                    if (!TextUtils.isEmpty(strImgPath)) {
-//                        File f = new File(strImgPath);
-//                        if (!f.exists()) {
-//                            strImgPath = photoPicker.parseImgPath(data);
-//                        }
-//
-//                    } else {
-//                        strImgPath = photoPicker.parseImgPath(data);
-//                    }
-//                    if (!TextUtils.isEmpty(strImgPath)) {
-//                        photoPicker.doCropPhoto();
-//                    }
-//                    break;
-//                case PhotoPicker.REQUEST_CODE_PHOTO_PICKED:
-//                    if (Build.VERSION.SDK_INT < 19) {
-//                        strImgPath = photoPicker.parseImgPath(data);
-//                        if (!TextUtils.isEmpty(strImgPath)) {
-//                            requestUploadImage(new File(strImgPath));
-//                            this.picBmp = photoPicker.parseThumbnail(strImgPath);
-//                        }
-//                    } else {
-//                        if (data != null) {
-//                            strImgPath = photoPicker.getPath(ApplyTeacherActivity.this, data.getData());
-//                            this.picBmp = photoPicker.parseThumbnail(strImgPath);
-//                            requestUploadImage(new File(strImgPath));
-//                        }
-//                    }
-//                    break;
-//            }
-//        }
-
-        if(requestCode == PICK_PHOTO){
-            if(resultCode == RESULT_OK){
+        if (requestCode == REQUEST_CODE_PICK_PHOTO) {
+            if (resultCode == RESULT_OK) {
                 ArrayList<String> result = data.getStringArrayListExtra(PhotoPickerActivity.KEY_RESULT);
                 if (result.size() > 0) {
                     String strImgPath = result.get(0);
@@ -319,6 +273,32 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
                     this.picBmp = photoPicker.parseThumbnail(strImgPath);
                     requestUploadImage(new File(strImgPath));
                 }
+            }
+        } else if (requestCode == REQUEST_CODE_EDIT_EXP) {
+            if (resultCode == RESULT_OK) {
+                Experience exp = data.getParcelableExtra("exp");
+                boolean isNew = true;
+                for (Experience experience : model.getData().getExperiences()) {
+                    if (experience.getId() == exp.getId()) {
+                        experience.setSchool(exp.getSchool());
+                        experience.setContent(exp.getContent());
+                        experience.setPost(exp.getPost());
+                        experience.setTime(exp.getTime());
+                        isNew = false;
+                        break;
+                    }
+                }
+                if (isNew) {
+                    List newList = new ArrayList(model.getData().getExperiences());
+                    newList.add(0, exp);
+                    model.getData().setExperiences(newList);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+        } else if (requestCode == REQUEST_CODE_EDIT_EDU) {
+            if (resultCode == RESULT_OK) {
+                Education edu = data.getParcelableExtra("edu");
             }
         }
     }
