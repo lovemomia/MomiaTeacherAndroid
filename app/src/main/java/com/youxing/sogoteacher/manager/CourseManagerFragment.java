@@ -40,7 +40,7 @@ public class CourseManagerFragment extends SGFragment {
             titleList.add("待上课");
             titleList.add("已上课");
             final Map<String, Fragment> map = new HashMap();
-            map.put("上课中", createCourseListFragment(0));
+            map.put("上课中", createCourseGoingFragment());
             map.put("待上课", createCourseListFragment(0));
             map.put("已上课", createCourseListFragment(1));
             this.viewPagerIndicatorView.setupFragment(titleList, map);

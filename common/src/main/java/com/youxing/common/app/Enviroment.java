@@ -21,6 +21,10 @@ public class Enviroment {
 
 	private static int screenWidth;
 
+	public static String userAgent() {
+		return "API1.0(com.youxing.sogoteacher;Android)";
+	}
+
 	public static String versionName() {
 		if (versionName == null) {
 			readPackageInfo();

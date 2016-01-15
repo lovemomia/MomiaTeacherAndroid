@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.youxing.sogoteacher.manager.views.GoingStudentListItem xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:background="@color/white"
+    android:padding="10dp">
+
+    <com.youxing.common.views.CircularImage
+        android:id="@+id/avatar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_deep_gray"
+                android:singleLine="true"
+                android:text="xxxx"
+                android:textSize="@dimen/text_medium"/>
+
+            <ImageView
+                android:id="@+id/sex"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:layout_marginTop="10dp"
+            android:singleLine="true"
+            android:text="yyyy"
+            android:textSize="@dimen/text_small"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/student_opbtn"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_shape_green"
+        android:text="课中观察"
+        android:textSize="@dimen/text_medium"
+        android:textColor="@color/white"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"/>
+
+</com.youxing.sogoteacher.manager.views.GoingStudentListItem>

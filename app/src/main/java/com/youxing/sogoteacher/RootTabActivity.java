@@ -35,17 +35,17 @@ public class RootTabActivity extends SGActivity {
         tabHost.addTab(
                 tabHost.newTabSpec("manager").setIndicator(
                         createTabItem("课程管理",
-                                R.drawable.ic_tab_home)), CourseManagerFragment.class,
+                                R.drawable.ic_tab_manager)), CourseManagerFragment.class,
                 null);
         tabHost.addTab(
                 tabHost.newTabSpec("chatlist").setIndicator(
                         createTabItem("学生群组",
-                                R.drawable.ic_tab_home)), ChatListFragment.class,
+                                R.drawable.ic_tab_group)), ChatListFragment.class,
                 null);
         tabHost.addTab(
                 tabHost.newTabSpec("material").setIndicator(
                         createTabItem("教材教具",
-                                R.drawable.ic_tab_home)), TeachMaterialFragment.class,
+                                R.drawable.ic_tab_material)), TeachMaterialFragment.class,
                 null);
         tabHost.addTab(
                 tabHost.newTabSpec("mine").setIndicator(

@@ -234,6 +234,38 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.youxing.sogoteacher.manager.StudentDetailActivity"
+            android:label="学生资料"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="studentdetail"
+                    android:scheme="sgteacher" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.youxing.sogoteacher.manager.StudentRecordActivity"
+            android:label="学生记录"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="studentrecord"
+                    android:scheme="sgteacher" />
+            </intent-filter>
+        </activity>
+
 
         <!-- UMeng-->
         <meta-data android:value="56930ed1e0f55a5a020024d1" android:name="UMENG_APPKEY"></meta-data>
