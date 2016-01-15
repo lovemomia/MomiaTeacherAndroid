@@ -277,28 +277,73 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
         } else if (requestCode == REQUEST_CODE_EDIT_EXP) {
             if (resultCode == RESULT_OK) {
                 Experience exp = data.getParcelableExtra("exp");
-                boolean isNew = true;
-                for (Experience experience : model.getData().getExperiences()) {
-                    if (experience.getId() == exp.getId()) {
-                        experience.setSchool(exp.getSchool());
-                        experience.setContent(exp.getContent());
-                        experience.setPost(exp.getPost());
-                        experience.setTime(exp.getTime());
-                        isNew = false;
-                        break;
+                boolean remove = data.getBooleanExtra("remove", false);
+
+                if (remove) { // 删除操作
+                    List newList = new ArrayList();
+                    for (Experience experience : model.getData().getExperiences()) {
+                        if (experience.getId() != exp.getId()) {
+                            newList.add(experience);
+                        }
                     }
-                }
-                if (isNew) {
-                    List newList = new ArrayList(model.getData().getExperiences());
-                    newList.add(0, exp);
                     model.getData().setExperiences(newList);
+                    adapter.notifyDataSetChanged();
+
+                } else { // 保存操作
+                    boolean isNew = true;
+                    for (Experience experience : model.getData().getExperiences()) {
+                        if (experience.getId() == exp.getId()) {
+                            experience.setSchool(exp.getSchool());
+                            experience.setContent(exp.getContent());
+                            experience.setPost(exp.getPost());
+                            experience.setTime(exp.getTime());
+                            isNew = false;
+                            break;
+                        }
+                    }
+                    if (isNew) {
+                        List newList = new ArrayList(model.getData().getExperiences());
+                        newList.add(0, exp);
+                        model.getData().setExperiences(newList);
+                    }
+                    adapter.notifyDataSetChanged();
                 }
-                adapter.notifyDataSetChanged();
             }
 
         } else if (requestCode == REQUEST_CODE_EDIT_EDU) {
             if (resultCode == RESULT_OK) {
                 Education edu = data.getParcelableExtra("edu");
+                boolean remove = data.getBooleanExtra("remove", false);
+
+                if (remove) { // 删除操作
+                    List newList = new ArrayList();
+                    for (Education education : model.getData().getEducations()) {
+                        if (education.getId() != edu.getId()) {
+                            newList.add(education);
+                        }
+                    }
+                    model.getData().setEducations(newList);
+                    adapter.notifyDataSetChanged();
+
+                } else { // 保存操作
+                    boolean isNew = true;
+                    for (Education education : model.getData().getEducations()) {
+                        if (education.getId() == edu.getId()) {
+                            education.setSchool(edu.getSchool());
+                            education.setMajor(edu.getMajor());
+                            education.setLevel(edu.getLevel());
+                            education.setTime(edu.getTime());
+                            isNew = false;
+                            break;
+                        }
+                    }
+                    if (isNew) {
+                        List newList = new ArrayList(model.getData().getEducations());
+                        newList.add(0, edu);
+                        model.getData().setEducations(newList);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
             }
         }
     }

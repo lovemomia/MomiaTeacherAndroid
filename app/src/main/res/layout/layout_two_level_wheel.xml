@@ -5,18 +5,6 @@
     android:layout_height="fill_parent"
     android:background="@color/white">
 
-    <!--<com.youxing.sogoteacher.views.WheelView-->
-        <!--android:id="@+id/wheel_view_left"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_weight="1" />-->
-
-    <!--<com.youxing.sogoteacher.views.WheelView-->
-        <!--android:id="@+id/wheel_view_right"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_weight="1" />-->
-
     <com.aigestudio.wheelpicker.view.WheelCurvedPicker
         android:id="@+id/wheel_view_left"
         android:layout_width="match_parent"

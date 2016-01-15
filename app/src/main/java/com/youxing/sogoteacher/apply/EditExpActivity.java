@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.alibaba.fastjson.JSON;
@@ -15,6 +17,7 @@ import com.youxing.common.app.Constants;
 import com.youxing.common.model.BaseModel;
 import com.youxing.common.services.http.HttpService;
 import com.youxing.common.services.http.RequestHandler;
+import com.youxing.common.utils.UnitTools;
 import com.youxing.sogoteacher.R;
 import com.youxing.sogoteacher.app.SGActivity;
 import com.youxing.sogoteacher.apply.views.ContentInputListItem;
@@ -26,6 +29,7 @@ import com.youxing.sogoteacher.views.TwoLevelWheelView;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.TextUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,6 +47,7 @@ public class EditExpActivity extends SGActivity implements AdapterView.OnItemCli
     private Adapter adapter;
 
     private Experience model;
+    private boolean canBeRemove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,8 @@ public class EditExpActivity extends SGActivity implements AdapterView.OnItemCli
         model = getIntent().getParcelableExtra("exp");
         if (model == null) {
             model = new Experience();
+        } else {
+            canBeRemove = true;
         }
 
         ListView listView = (ListView) findViewById(R.id.listView);
@@ -69,6 +76,9 @@ public class EditExpActivity extends SGActivity implements AdapterView.OnItemCli
     }
 
     private void save() {
+        if (!check()) {
+            return;
+        }
         showLoadingDialog(this);
 
         List<NameValuePair> params = new ArrayList<>();
@@ -98,6 +108,56 @@ public class EditExpActivity extends SGActivity implements AdapterView.OnItemCli
         });
     }
 
+    private void remove() {
+        showLoadingDialog(this);
+
+        List<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("id", String.valueOf(model.getId())));
+        HttpService.post(Constants.domain() + "/teacher/experience/delete", params, BaseModel.class, new RequestHandler() {
+            @Override
+            public void onRequestFinish(Object response) {
+                dismissDialog();
+
+                Intent data = new Intent();
+                data.putExtra("exp", model);
+                data.putExtra("remove", true);
+                setResult(RESULT_OK, data);
+                finish();
+            }
+
+            @Override
+            public void onRequestFailed(BaseModel error) {
+                dismissDialog();
+                showDialog(EditExpActivity.this, error.getErrmsg(), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+            }
+        });
+    }
+
+    private boolean check() {
+        if (TextUtils.isEmpty(model.getSchool())) {
+            showDialog(EditExpActivity.this, "学校不能为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(model.getPost())) {
+            showDialog(EditExpActivity.this, "岗位不能为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(model.getTime())) {
+            showDialog(EditExpActivity.this, "在职时间不能为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(model.getContent())) {
+            showDialog(EditExpActivity.this, "工作内容不能为空");
+            return false;
+        }
+        return true;
+    }
+
     private void chooseTime() {
         final TwoLevelWheelView wheelView = TwoLevelWheelView.create(EditExpActivity.this);
 
@@ -123,9 +183,6 @@ public class EditExpActivity extends SGActivity implements AdapterView.OnItemCli
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (model == null) {
-                            model = new Experience();
-                        }
                         model.setTime(wheelView.getLeftSelectData() + " - " + wheelView.getRightSelectData());
                         adapter.notifyDataSetChanged();
                     }
@@ -161,6 +218,9 @@ public class EditExpActivity extends SGActivity implements AdapterView.OnItemCli
 
         @Override
         public int getSectionCount() {
+            if (canBeRemove) {
+                return 3;
+            }
             return 2;
         }
 
@@ -168,8 +228,10 @@ public class EditExpActivity extends SGActivity implements AdapterView.OnItemCli
         public int getCountInSection(int section) {
             if (section == 0) {
                 return 3;
+            } else if (section == 1) {
+                return 1;
             }
-            return 1;
+            return 0;
         }
 
         @Override
@@ -208,11 +270,38 @@ public class EditExpActivity extends SGActivity implements AdapterView.OnItemCli
                 ContentInputListItem inputListItem = ContentInputListItem.create(EditExpActivity.this);
                 inputListItem.setInputText(model.getContent());
                 inputListItem.setTag(2);
+                inputListItem.setTitle("工作内容(500字以内)");
                 inputListItem.setInputChangeListener(EditExpActivity.this);
                 return inputListItem;
             }
         }
 
+        @Override
+        public View getViewForSection(View convertView, ViewGroup parent, int section) {
+            if (canBeRemove && section == getSectionCount() - 1) {
+                LinearLayout ll = new LinearLayout(EditExpActivity.this);
+                int padding = UnitTools.dip2px(EditExpActivity.this, 20);
+                ll.setPadding(padding, padding, padding, padding);
+                Button payBtn = new Button(EditExpActivity.this);
+                payBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+                payBtn.setText("删除此工作经历");
+                payBtn.setTextSize(18);
+                payBtn.setTextColor(getResources().getColor(R.color.white));
+                payBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        remove();
+                    }
+                });
+                padding = UnitTools.dip2px(EditExpActivity.this, 10);
+                payBtn.setPadding(padding, padding, padding, padding);
+                payBtn.setBackgroundResource(R.drawable.btn_shape_green);
+                ll.addView(payBtn);
+                return ll;
+            }
+            return super.getViewForSection(convertView, parent, section);
+        }
     }
 
 }
