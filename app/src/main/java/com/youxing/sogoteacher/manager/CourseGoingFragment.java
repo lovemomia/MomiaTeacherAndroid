@@ -23,6 +23,12 @@ import com.youxing.sogoteacher.model.Course;
 import com.youxing.sogoteacher.model.CourseGoingModel;
 import com.youxing.sogoteacher.model.Student;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Jun Deng on 16/1/11.
  */
@@ -94,7 +100,12 @@ public class CourseGoingFragment extends SGFragment implements AdapterView.OnIte
 
     private void requestCheckin(final Student student) {
         showLoadingDialog(getActivity());
-        HttpService.post(Constants.domain() + "/teacher/course/checkin", null, BaseModel.class, new RequestHandler() {
+        List<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("uid", String.valueOf(student.getId())));
+        params.add(new BasicNameValuePair("pid", String.valueOf(student.getPackageId())));
+        params.add(new BasicNameValuePair("coid", String.valueOf(model.getData().getCourse().getCourseId())));
+        params.add(new BasicNameValuePair("sid", String.valueOf(model.getData().getCourse().getCourseSkuId())));
+        HttpService.post(Constants.domain() + "/teacher/course/checkin", params, BaseModel.class, new RequestHandler() {
             @Override
             public void onRequestFinish(Object response) {
                 dismissDialog();
