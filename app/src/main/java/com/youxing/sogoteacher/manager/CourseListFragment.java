@@ -1,6 +1,9 @@
 package com.youxing.sogoteacher.manager;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -44,10 +47,25 @@ public class CourseListFragment extends SGFragment implements AdapterView.OnItem
     private boolean isEnd;
     private int status;
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(StudentAddCommentActivity.ACTION_STUDENT_COMMENTED)) {
+                refresh();
+            }
+        }
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         status = getArguments().getInt("status");
+
+        if (status != 0) {
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(StudentAddCommentActivity.ACTION_STUDENT_COMMENTED);
+            getActivity().registerReceiver(receiver, filter);
+        }
     }
 
     @Override
@@ -77,6 +95,22 @@ public class CourseListFragment extends SGFragment implements AdapterView.OnItem
 //        if (rebuild) {
 //            requestData();
 //        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (status != 0) {
+            getActivity().unregisterReceiver(receiver);
+        }
+        super.onDestroy();
+    }
+
+    private void refresh() {
+        courseList.clear();
+        isEmpty = false;
+        isEnd = false;
+
+        requestData();
     }
 
     private void requestData() {
@@ -165,7 +199,8 @@ public class CourseListFragment extends SGFragment implements AdapterView.OnItem
             } else {
                 Course course = (Course) item;
                 CourseListItem courseListItem = CourseListItem.create(getActivity());
-                courseListItem.setData(course);
+
+                courseListItem.setData(course, status != 0);
                 view = courseListItem;
             }
             return view;

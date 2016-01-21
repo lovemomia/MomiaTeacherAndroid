@@ -47,6 +47,10 @@ public class StudentListItem extends LinearLayout {
         return (StudentListItem) LayoutInflater.from(context).inflate(R.layout.layout_student_list_item, null);
     }
 
+    public void setData(Student student) {
+        setData(student, false);
+    }
+
     public void setData(Student student, boolean isShowCommentStatus) {
         iconIv.setImageUrl(student.getAvatar());
         nameTv.setText(student.getName());
