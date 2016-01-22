@@ -7,14 +7,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.youxing.common.app.Constants;
+import com.youxing.common.model.BaseModel;
 import com.youxing.common.services.account.AccountChangeListener;
 import com.youxing.common.services.account.AccountService;
+import com.youxing.common.services.http.CacheType;
+import com.youxing.common.services.http.HttpService;
+import com.youxing.common.services.http.RequestHandler;
 import com.youxing.sogoteacher.R;
 import com.youxing.sogoteacher.app.SGFragment;
+import com.youxing.sogoteacher.model.IMGroup;
+import com.youxing.sogoteacher.model.IMGroupListModel;
 import com.youxing.sogoteacher.views.TitleBar;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Group;
+import io.rong.message.InformationNotificationMessage;
 
 /**
  * Created by Jun Deng on 16/1/11.
@@ -49,7 +63,63 @@ public class ChatListFragment extends SGFragment implements AccountChangeListene
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        requestData();
         AccountService.instance().addListener(this);
+    }
+
+    private void requestData() {
+        HttpService.get(Constants.domain() + "/im/user/group", null, CacheType.DISABLE, IMGroupListModel.class, new RequestHandler() {
+            @Override
+            public void onRequestFinish(Object response) {
+                IMGroupListModel model = (IMGroupListModel) response;
+
+                List<Group> grouplist = new ArrayList<Group>();
+                for (int i = 0; i < model.getData().size(); i++) {
+                    IMGroup imGroup = model.getData().get(i);
+                    String id = String.valueOf(imGroup.getGroupId());
+                    String name = imGroup.getGroupName();
+                    grouplist.add(new Group(id, name, null));
+
+                    RongCloudEvent.instance().getGroupCache().put(id, imGroup);
+                }
+
+                if (grouplist.size() > 0 && RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
+                    List<Conversation> conversations = RongIM.getInstance().getRongIMClient().getConversationList();
+                    if (conversations == null) {
+                        return;
+                    }
+                    for (IMGroup group : model.getData()) {
+                        boolean exist = false;
+                        for (Conversation cvs : conversations) {
+                            if (cvs.getConversationType() != Conversation.ConversationType.GROUP) {
+                                continue;
+                            }
+                            if (cvs.getTargetId().equals(String.valueOf(group.getGroupId()))) {
+                                exist = true;
+                                break;
+                            }
+                        }
+                        if (!exist) {
+                            RongIM.getInstance().getRongIMClient().insertMessage(Conversation.ConversationType.GROUP, String.valueOf(group.getGroupId()), "10000", InformationNotificationMessage.obtain(group.getTips()), new RongIMClient.ResultCallback(){
+                                @Override
+                                public void onSuccess(Object o) {
+                                }
+
+                                @Override
+                                public void onError(RongIMClient.ErrorCode errorCode) {
+                                }
+                            });
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onRequestFailed(BaseModel error) {
+
+            }
+        });
     }
 
     @Override

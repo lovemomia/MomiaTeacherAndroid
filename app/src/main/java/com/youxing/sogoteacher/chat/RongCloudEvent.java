@@ -34,6 +34,17 @@ public class RongCloudEvent implements RongIM.UserInfoProvider, RongIM.GroupInfo
 
     private static RongCloudEvent instance;
 
+    public static RongCloudEvent instance() {
+        if (instance == null) {
+            synchronized (RongCloudEvent.class) {
+                if (instance == null) {
+                    instance = new RongCloudEvent();
+                }
+            }
+        }
+        return instance;
+    }
+
     public static void init() {
         if (instance == null) {
             synchronized (RongCloudEvent.class) {
@@ -51,6 +62,14 @@ public class RongCloudEvent implements RongIM.UserInfoProvider, RongIM.GroupInfo
 
     private Map<String, User> userCache = new HashMap<>();
     private Map<String, IMGroup> groupCache = new HashMap<>();
+
+    public Map<String, User> getUserCache() {
+        return userCache;
+    }
+
+    public Map<String, IMGroup> getGroupCache() {
+        return groupCache;
+    }
 
     @Override
 
