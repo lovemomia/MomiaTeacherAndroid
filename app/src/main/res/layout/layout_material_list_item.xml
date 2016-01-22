@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.youxing.sogoteacher.material.views.MaterialListItem  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="95dp"
+    android:background="@color/white"
+    android:padding="10dp">
+
+    <com.youxing.common.views.YXNetworkImageView
+        android:id="@+id/icon"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="vertical"
+        android:paddingLeft="10dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_deep_gray"
+            android:text="xxxx"
+            android:textSize="@dimen/text_medium"/>
+        <TextView
+            android:id="@+id/people"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/text_gray"
+            android:layout_marginTop="10dp"
+            android:singleLine="true"
+            android:gravity="bottom"
+            android:text="zzzz"
+            android:textSize="@dimen/text_small"/>
+    </LinearLayout>
+
+</com.youxing.sogoteacher.material.views.MaterialListItem >

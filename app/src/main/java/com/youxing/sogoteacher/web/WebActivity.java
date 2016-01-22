@@ -1,10 +1,15 @@
 package com.youxing.sogoteacher.web;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.youxing.common.app.Constants;
+import com.youxing.common.services.account.AccountService;
 import com.youxing.sogoteacher.app.SGWebActivity;
 
 import java.net.URLDecoder;
@@ -33,8 +38,34 @@ public class WebActivity extends SGWebActivity {
 		if (url == null)
 			finish();
 
-		webView.loadUrl(url);
+		webView.loadUrl(appendUrl(url));
 		setTitle(title);
+
+		// set cookie
+		String domain = Constants.DEBUG ? "http://m.momia.cn" : "http://m.sogokids.com";
+		if (AccountService.instance().isLogin()) {
+			synCookies(this, domain, "utoken="
+					+ AccountService.instance().account().getToken()
+					+ "; path=/; domain=nuomi.com");
+		} else {
+			synCookies(this, domain,
+					"utoken=; path=/; domain=nuomi.com");
+		}
+	}
+
+	private String appendUrl(String url) {
+		if (url.contains("?")) {
+			return url + "&_src=androidapp";
+		}
+		return url + "&_src=androidapp";
+	}
+
+	public void synCookies(Context context, String url, String cookies) {
+		CookieSyncManager.createInstance(context);
+		CookieManager cookieManager = CookieManager.getInstance();
+		cookieManager.setAcceptCookie(true);
+		cookieManager.setCookie(url, cookies);
+		CookieSyncManager.getInstance().sync();
 	}
 
 	@Override
