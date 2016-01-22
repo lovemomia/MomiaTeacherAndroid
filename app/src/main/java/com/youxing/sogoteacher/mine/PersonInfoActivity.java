@@ -622,13 +622,22 @@ public class PersonInfoActivity extends SGActivity implements StepperView.OnNumb
                 Button payBtn = new Button(PersonInfoActivity.this);
                 payBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT));
-                payBtn.setText("退出登录");
+                payBtn.setText("切换账户");
                 payBtn.setTextSize(18);
                 payBtn.setTextColor(getResources().getColor(R.color.white));
                 payBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AccountService.instance().dispatchAccountChanged(null);
+                        AccountService.instance().logout();
+                        AccountService.instance().login(PersonInfoActivity.this, new AccountService.LoginListener() {
+                            @Override
+                            public void onLoginSuccess() {
+                            }
+
+                            @Override
+                            public void onLoginFailed() {
+                            }
+                        });
                         finish();
                     }
                 });
