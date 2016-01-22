@@ -298,6 +298,32 @@
             </intent-filter>
         </activity>
 
+        <!-- RongCloud -->
+        <activity android:name="com.youxing.sogoteacher.chat.ConversationActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.youxing.sogoteacher"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.youxing.sogoteacher.chat.SystemNotificationActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.youxing.sogoteacher.system"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
 
         <!-- UMeng-->
         <meta-data android:value="56930ed1e0f55a5a020024d1" android:name="UMENG_APPKEY"></meta-data>

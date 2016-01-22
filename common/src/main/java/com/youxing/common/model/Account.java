@@ -12,6 +12,7 @@ import java.util.List;
 public class Account {
 
     private String token;
+    private String imToken;
     private String avatar;
     private String birthday;
     private String name;
@@ -27,6 +28,14 @@ public class Account {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getImToken() {
+        return imToken;
+    }
+
+    public void setImToken(String imToken) {
+        this.imToken = imToken;
     }
 
     public String getAvatar() {

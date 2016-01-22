@@ -10,11 +10,20 @@ import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
+import com.youxing.common.app.Constants;
+import com.youxing.common.model.BaseModel;
+import com.youxing.common.services.account.AccountService;
+import com.youxing.common.services.http.HttpService;
+import com.youxing.common.services.http.RequestHandler;
 import com.youxing.sogoteacher.app.SGActivity;
 import com.youxing.sogoteacher.chat.ChatListFragment;
 import com.youxing.sogoteacher.manager.CourseManagerFragment;
 import com.youxing.sogoteacher.material.TeachMaterialFragment;
 import com.youxing.sogoteacher.mine.MineFragment;
+import com.youxing.sogoteacher.model.IMTokenModel;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class RootTabActivity extends SGActivity {
 
@@ -56,6 +65,9 @@ public class RootTabActivity extends SGActivity {
         // Umeng
         MobclickAgent.updateOnlineConfig(this);
         UmengUpdateAgent.silentUpdate(this);
+
+        // RongCloud
+        doRCIMConnect(3);
     }
 
     private View createTabItem(String name, int iconRes) {
@@ -80,5 +92,44 @@ public class RootTabActivity extends SGActivity {
             Toast.makeText(this, "再按一次返回退出松果亲子", Toast.LENGTH_SHORT).show();
         }
         mPrevbackPress = t;
+    }
+
+    private void doRCIMConnect(final int tryTime) {
+        String imToken = AccountService.instance().account().getImToken();
+        if (imToken == null) {
+            return;
+        }
+
+        RongIM.connect(AccountService.instance().account().getImToken(), new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+                //Connect Token 失效的状态处理，需要重新获取 Token
+
+                if (tryTime > 0) {
+                    HttpService.post(Constants.domain() + "/im/token", null, IMTokenModel.class, new RequestHandler() {
+                        @Override
+                        public void onRequestFinish(Object response) {
+                            IMTokenModel model = (IMTokenModel) response;
+                            AccountService.instance().account().setImToken(model.getData());
+                            doRCIMConnect(tryTime - 1);
+                        }
+
+                        @Override
+                        public void onRequestFailed(BaseModel error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onSuccess(String userId) {
+
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+            }
+        });
     }
 }

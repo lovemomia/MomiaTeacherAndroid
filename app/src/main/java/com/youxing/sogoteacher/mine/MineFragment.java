@@ -1,8 +1,10 @@
 package com.youxing.sogoteacher.mine;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,10 @@ import com.youxing.sogoteacher.mine.views.MineHeaderView;
 import com.youxing.sogoteacher.views.SimpleListItem;
 import com.youxing.sogoteacher.views.TitleBar;
 
+import io.rong.imkit.RongContext;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
+
 /**
  * Created by Jun Deng on 15/8/3.
  */
@@ -34,7 +40,7 @@ public class MineFragment extends SGFragment implements AdapterView.OnItemClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.activity_mine, null);
+            rootView = inflater.inflate(R.layout.fragment_mine, null);
             titleBar = (TitleBar) rootView.findViewById(R.id.titleBar);
             listView = (ListView)rootView.findViewById(R.id.listView);
             adapter = new Adapter();
@@ -91,10 +97,24 @@ public class MineFragment extends SGFragment implements AdapterView.OnItemClickL
         } else if (section == 2) {
             if (row == 0) {
                 // 意见反馈
-                startActivity("sgteacher://feedback");
+//                startActivity("sgteacher://feedback");
+                startConversationSystem(getActivity(), Conversation.ConversationType.SYSTEM, "10000", "系统消息");
             } else {
                 startActivity("sgteacher://about");
             }
+        }
+    }
+
+    public void startConversationSystem(Context context, Conversation.ConversationType conversationType, String targetId, String title) {
+        if(context != null && !TextUtils.isEmpty(targetId) && conversationType != null) {
+            if(RongContext.getInstance() == null) {
+                throw new ExceptionInInitializerError("RongCloud SDK not init");
+            } else {
+                Uri uri = Uri.parse("rong://" + context.getApplicationInfo().processName + ".system").buildUpon().appendPath("conversation").appendPath(conversationType.getName().toLowerCase()).appendQueryParameter("targetId", targetId).appendQueryParameter("title", title).build();
+                context.startActivity(new Intent("android.intent.action.VIEW", uri));
+            }
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 
@@ -152,7 +172,7 @@ public class MineFragment extends SGFragment implements AdapterView.OnItemClickL
                     }
                 } else if (section == 2) {
                     if (row == 0) {
-                        simpleListItem.setTitle("意见反馈");
+                        simpleListItem.setTitle("系统消息");
                         simpleListItem.setIcon(R.drawable.ic_mine_feedback);
 
                     } else {
