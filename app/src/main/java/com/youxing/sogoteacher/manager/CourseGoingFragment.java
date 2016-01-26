@@ -22,6 +22,7 @@ import com.youxing.sogoteacher.manager.views.GoingStudentListItem;
 import com.youxing.sogoteacher.model.Course;
 import com.youxing.sogoteacher.model.CourseGoingModel;
 import com.youxing.sogoteacher.model.Student;
+import com.youxing.sogoteacher.views.EmptyView;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -39,6 +40,7 @@ public class CourseGoingFragment extends SGFragment implements AdapterView.OnIte
 
     private ListView listView;
     private Adapter adapter;
+    private boolean isEmpty;
 
     private CourseGoingModel model;
 
@@ -84,10 +86,11 @@ public class CourseGoingFragment extends SGFragment implements AdapterView.OnIte
                 dismissDialog();
                 model = (CourseGoingModel) response;
                 if (model.getData().getCourse() == null) {
-                    showEmptyView("课程还没有开始哦～");
-                } else {
-                    adapter.notifyDataSetChanged();
+//                    showEmptyView("课程还没有开始哦～");
+                    isEmpty = true;
+
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -154,6 +157,9 @@ public class CourseGoingFragment extends SGFragment implements AdapterView.OnIte
             if (model == null) {
                 return 0;
             }
+            if (isEmpty) {
+                return 1;
+            }
             return model.getData().getStudents().size() + 1;
         }
 
@@ -174,7 +180,12 @@ public class CourseGoingFragment extends SGFragment implements AdapterView.OnIte
         public View getView(int position, View convertView, ViewGroup parent) {
             Object item = getItem(position);
             View view = null;
-            if (position == 0) {
+            if (isEmpty) {
+                EmptyView emptyView = EmptyView.create(getActivity());
+                emptyView.setMessage("课程还没有开始哦～");
+                view = emptyView;
+
+            } else if (position == 0) {
                 Course course = (Course) item;
                 CourseListItem courseListItem = CourseListItem.create(getActivity());
                 courseListItem.setData(course);

@@ -33,12 +33,6 @@ public class SGFragment extends YXFragment {
 
     // *************** UI操作 ***************
 
-    public void showEmptyView(String msg) {
-        EmptyView emptyView = EmptyView.create(getActivity());
-        emptyView.setMessage(msg);
-        getActivity().setContentView(emptyView);
-    }
-
     public void showLoadingDialog(Context context) {
         showLoadingDialog(context, null, null);
     }
