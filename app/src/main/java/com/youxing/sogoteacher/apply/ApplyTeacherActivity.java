@@ -40,6 +40,7 @@ import com.youxing.sogoteacher.model.Education;
 import com.youxing.sogoteacher.model.Experience;
 import com.youxing.sogoteacher.utils.PhotoPicker;
 import com.youxing.sogoteacher.views.InputListItem;
+import com.youxing.sogoteacher.views.SectionView;
 import com.youxing.sogoteacher.views.SimpleListItem;
 
 import org.apache.http.NameValuePair;
@@ -159,6 +160,10 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (status == 1) {
+            return;
+        }
+
         GroupStyleAdapter.IndexPath indexPath = adapter.getIndexForPosition(position);
         int section = indexPath.section;
         int row = indexPath.row;
@@ -418,6 +423,7 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
                             avatar.setDefaultImageResId(R.drawable.ic_default_avatar);
                             avatar.setImageUrl(model.getData().getPic());
                         }
+                        view.findViewById(R.id.arrow).setVisibility(status == 1 ? View.GONE : View.VISIBLE);
 
                         return view;
 
@@ -430,7 +436,7 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
                             listItem.setTitle("生日");
                             listItem.setSubTitle(model.getData().getBirthday());
                         }
-                        listItem.setShowArrow(true);
+                        listItem.setShowArrow(status != 1);
                         return listItem;
                     }
 
@@ -453,6 +459,7 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
                     }
                     listItem.setTag(new Integer(row));
                     listItem.setInputChangeListener(ApplyTeacherActivity.this);
+                    listItem.setInputEditable(status != 1);
                     return listItem;
                 }
 
@@ -462,7 +469,7 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
                     SimpleListItem listItem = SimpleListItem.create(ApplyTeacherActivity.this);
                     listItem.setTitle(exp.getSchool());
                     listItem.setSubTitle(exp.getTime());
-                    listItem.setShowArrow(true);
+                    listItem.setShowArrow(status != 1);
                     return listItem;
 
                 } else {
@@ -477,7 +484,7 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
                     SimpleListItem listItem = SimpleListItem.create(ApplyTeacherActivity.this);
                     listItem.setTitle(edu.getSchool());
                     listItem.setSubTitle(edu.getTime());
-                    listItem.setShowArrow(true);
+                    listItem.setShowArrow(status != 1);
                     return listItem;
 
                 } else {
@@ -490,7 +497,12 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
 
         @Override
         public View getViewForSection(View convertView, ViewGroup parent, int section) {
-            if (section == getSectionCount() - 1) {
+            if (status == 1 && section == 0) {
+                SectionView sectionView = SectionView.create(ApplyTeacherActivity.this);
+                sectionView.setTitle("恭喜您！通过助教资格审核，您可以在课程管理中查看课程安排啦~");
+                return sectionView;
+
+            } else if (status != 1 && section == getSectionCount() - 1) {
                 LinearLayout ll = new LinearLayout(ApplyTeacherActivity.this);
                 int padding = UnitTools.dip2px(ApplyTeacherActivity.this, 20);
                 ll.setPadding(padding, padding, padding, padding);

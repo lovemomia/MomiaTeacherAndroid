@@ -57,6 +57,10 @@ public class InputListItem extends LinearLayout {
         this.inputChangeListener = listener;
     }
 
+    public void setInputEditable(boolean editable) {
+        inputEt.setEnabled(editable);
+    }
+
     class InputTextWatcher implements TextWatcher {
         private InputListItem host;
 
