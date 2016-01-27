@@ -1,5 +1,7 @@
 package com.youxing.sogoteacher.setting;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,8 @@ import com.youxing.common.app.Enviroment;
 import com.youxing.sogoteacher.R;
 import com.youxing.sogoteacher.app.SGActivity;
 import com.youxing.sogoteacher.views.SimpleListItem;
+
+import java.net.URLEncoder;
 
 /**
  * Created by Jun Deng on 15/8/31.
@@ -36,7 +40,9 @@ public class AboutActivity extends SGActivity implements AdapterView.OnItemClick
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         GroupStyleAdapter.IndexPath indexPath = adapter.getIndexForPosition(position);
         if (indexPath.row == 0) {
-            startActivity("sgteacher://web?url=http://www.duolaqinzi.com/agreement.html");
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sgteacher://web?url=" + URLEncoder.encode("http://www.sogokids.com/agreement.html")));
+            intent.putExtra("appendParams", false);
+            startActivity(intent);
         }
     }
 

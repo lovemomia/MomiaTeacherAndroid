@@ -18,6 +18,7 @@ public class WebActivity extends SGWebActivity {
 	private String url;
 	private String title;
 	private boolean openexternal;
+	private boolean appendParams;
 
 	@Override
 	public void onCreate(Bundle icicle) {
@@ -34,6 +35,7 @@ public class WebActivity extends SGWebActivity {
 			title = getIntent().getStringExtra("title");
 			openexternal = getIntent().getBooleanExtra("openExternal", false);
 		}
+		appendParams = getIntent().getBooleanExtra("appendParams", true);
 
 		if (url == null)
 			finish();
@@ -54,6 +56,10 @@ public class WebActivity extends SGWebActivity {
 	}
 
 	private String appendUrl(String url) {
+		if (!appendParams) {
+			return url;
+		}
+
 		if (url.contains("?")) {
 			return url + "&_src=androidapp";
 		}
