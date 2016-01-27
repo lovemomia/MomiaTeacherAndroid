@@ -30,7 +30,7 @@ public class SplashActivity extends Activity {
                     AccountService.instance().login(SplashActivity.this, new AccountService.LoginListener() {
                         @Override
                         public void onLoginSuccess() {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("sgteacher://home")));
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("sgteacher://home?isFirstLogin=true")));
                         }
 
                         @Override

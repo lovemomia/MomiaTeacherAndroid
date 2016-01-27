@@ -129,6 +129,15 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
     }
 
     private void submit() {
+        final boolean isContentFull = check();
+        if (!fromLogin && !isContentFull) {
+            showDialog(ApplyTeacherActivity.this, "个人资料填写不完整，请完善后重新提交！", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            return;
+        }
         showLoadingDialog(this);
 
         List<NameValuePair> params = new ArrayList<>();
@@ -137,12 +146,25 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
             @Override
             public void onRequestFinish(Object response) {
                 dismissDialog();
-                showDialog(ApplyTeacherActivity.this, "申请助教成功，请耐心等待审核哦~", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
+                if (isContentFull) {
+                    showDialog(ApplyTeacherActivity.this, "申请助教成功，请耐心等待审核哦~", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
+                } else {
+                    showDialog(ApplyTeacherActivity.this, null, "个人资料填写不完整，可以在“我的-成为助教”中完善后重新提交", "继续填写", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }, "跳过", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
+                }
             }
 
             @Override
@@ -156,6 +178,34 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
                 });
             }
         });
+    }
+
+    private boolean check() {
+        if (TextUtils.isEmpty(model.getData().getPic())) {
+            return false;
+
+        } else if (TextUtils.isEmpty(model.getData().getName())) {
+            return false;
+
+        } else if (TextUtils.isEmpty(model.getData().getIdNo())) {
+            return false;
+
+        } else if (TextUtils.isEmpty(model.getData().getSex())) {
+            return false;
+
+        } else if (TextUtils.isEmpty(model.getData().getBirthday())) {
+            return false;
+
+        } else if (TextUtils.isEmpty(model.getData().getAddress())) {
+            return false;
+
+        } else if (model.getData().getExperiences().size() == 0) {
+            return false;
+
+        } else if (model.getData().getEducations().size() == 0) {
+            return false;
+        }
+        return true;
     }
 
     @Override

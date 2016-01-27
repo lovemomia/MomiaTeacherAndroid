@@ -3,15 +3,20 @@ package com.youxing.sogoteacher.chat;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.FrameLayout;
 
 import com.youxing.sogoteacher.R;
 import com.youxing.sogoteacher.app.SGActivity;
+import com.youxing.sogoteacher.views.EmptyView;
 
+import java.util.List;
 import java.util.Locale;
 
-import io.rong.imkit.fragment.ConversationFragment;
+import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.MessageListFragment;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
 
 /**
  * Created by Jun Deng on 16/1/22.
@@ -33,6 +38,8 @@ public class SystemNotificationActivity extends SGActivity {
      */
     private Conversation.ConversationType mConversationType;
 
+    private FrameLayout emptyContentLay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +47,27 @@ public class SystemNotificationActivity extends SGActivity {
         Intent intent = getIntent();
 
         getIntentDate(intent);
+
+        emptyContentLay = (FrameLayout) findViewById(R.id.empty_content);
+        checkHistory();
+    }
+
+    private void checkHistory() {
+        RongIM.getInstance().getRongIMClient().getHistoryMessages(Conversation.ConversationType.SYSTEM, mTargetId, -1, 1, new RongIMClient.ResultCallback<List<Message>>() {
+            @Override
+            public void onSuccess(List<Message> o) {
+                if (o == null || o.size() == 0) {
+                    EmptyView emptyView = EmptyView.create(SystemNotificationActivity.this);
+                    emptyView.setMessage("还没有系统消息哦～");
+                    emptyContentLay.addView(emptyView);
+                }
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
     }
 
     /**

@@ -29,6 +29,8 @@ public class RootTabActivity extends SGActivity {
 
     private FragmentTabHost tabHost;
 
+    private boolean isFirstLogin;
+
     @Override
     protected int titleFeatureId() {
         return Window.FEATURE_NO_TITLE;
@@ -68,6 +70,11 @@ public class RootTabActivity extends SGActivity {
 
         // RongCloud
         doRCIMConnect(3);
+
+        isFirstLogin = Boolean.valueOf(getIntent().getData().getQueryParameter("isFirstLogin"));
+        if (isFirstLogin) {
+            startActivity("sgteacher://applyteacher?fromLogin=true");
+        }
     }
 
     private View createTabItem(String name, int iconRes) {

@@ -34,7 +34,7 @@ public class MineHeaderView extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         avartaIv = (CircularImage) findViewById(R.id.avatar);
-        avartaIv.setDefaultImageResId(R.drawable.ic_default_avatar);
+        avartaIv.setDefaultImageResId(R.drawable.ic_default_avatar_gray);
         nameTv = (TextView) findViewById(R.id.name);
         ageTv = (TextView) findViewById(R.id.age);
     }

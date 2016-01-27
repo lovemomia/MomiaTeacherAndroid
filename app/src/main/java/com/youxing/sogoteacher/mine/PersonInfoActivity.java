@@ -564,7 +564,7 @@ public class PersonInfoActivity extends SGActivity implements StepperView.OnNumb
                 TextView title = (TextView) view.findViewById(R.id.title);
                 title.setText("头像");
                 CircularImage avatar = (CircularImage) view.findViewById(R.id.avatar);
-                avatar.setDefaultImageResId(R.drawable.ic_default_avatar);
+                avatar.setDefaultImageResId(R.drawable.ic_default_avatar_gray);
                 avatar.setImageUrl(account.getAvatar());
 
             } else {
