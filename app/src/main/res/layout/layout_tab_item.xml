@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:layout_height="wrap_content">
 
     <!-- 多加的一层看似无用的布局是为了解决添加到容器中时因为不能设置高度，造成填满整个屏幕的问题 -->
     <LinearLayout
@@ -28,4 +27,13 @@
             android:layout_marginTop="3dp" />
     </LinearLayout>
 
-</LinearLayout>
+    <View android:id="@+id/dot"
+        android:layout_height="8dp"
+        android:layout_width="8dp"
+        android:background="@drawable/bg_shape_dot"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="right"
+        android:visibility="gone"/>
+
+</FrameLayout>

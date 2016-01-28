@@ -21,6 +21,7 @@ public class SimpleListItem extends LinearLayout {
     private ImageView iconIv;
     private TextView titleTv;
     private TextView subTitleTv;
+    private View dotView;
     private ImageView arrowIv;
 
     public SimpleListItem(Context context) {
@@ -42,6 +43,7 @@ public class SimpleListItem extends LinearLayout {
         iconIv = (ImageView) findViewById(R.id.icon);
         titleTv = (TextView)findViewById(R.id.title);
         subTitleTv = (TextView) findViewById(R.id.subTitle);
+        dotView = findViewById(R.id.dot);
         arrowIv = (ImageView) findViewById(R.id.arrow);
     }
 
@@ -72,6 +74,10 @@ public class SimpleListItem extends LinearLayout {
 
     public TextView getSubTitleTv() {
         return subTitleTv;
+    }
+
+    public View getDotView() {
+        return dotView;
     }
 
     public ImageView getArrowIv() {

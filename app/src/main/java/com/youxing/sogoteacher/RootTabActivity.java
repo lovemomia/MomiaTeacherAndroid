@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTabHost;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,10 +25,14 @@ import com.youxing.sogoteacher.model.IMTokenModel;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
 
-public class RootTabActivity extends SGActivity {
+public class RootTabActivity extends SGActivity implements RongIMClient.OnReceiveMessageListener, TabHost.OnTabChangeListener {
 
     private FragmentTabHost tabHost;
+    private View groupDot;
+    private View mineDot;
 
     private boolean isFirstLogin;
 
@@ -48,21 +53,18 @@ public class RootTabActivity extends SGActivity {
                         createTabItem("课程管理",
                                 R.drawable.ic_tab_manager)), CourseManagerFragment.class,
                 null);
-        tabHost.addTab(
-                tabHost.newTabSpec("chatlist").setIndicator(
-                        createTabItem("学生群组",
-                                R.drawable.ic_tab_group)), ChatListFragment.class,
+
+        View groupTabItem = createTabItem("学生群组", R.drawable.ic_tab_group);
+        groupDot = groupTabItem.findViewById(R.id.dot);
+        tabHost.addTab(tabHost.newTabSpec("chatlist").setIndicator(groupTabItem), ChatListFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("material").setIndicator(createTabItem("教材教具", R.drawable.ic_tab_material)), TeachMaterialFragment.class,
                 null);
-        tabHost.addTab(
-                tabHost.newTabSpec("material").setIndicator(
-                        createTabItem("教材教具",
-                                R.drawable.ic_tab_material)), TeachMaterialFragment.class,
-                null);
-        tabHost.addTab(
-                tabHost.newTabSpec("mine").setIndicator(
-                        createTabItem("我的",
-                                R.drawable.ic_tab_mine)),
-                MineFragment.class, null);
+
+        View mineTabItem = createTabItem("我的", R.drawable.ic_tab_mine);
+        mineDot = mineTabItem.findViewById(R.id.dot);
+        tabHost.addTab(tabHost.newTabSpec("mine").setIndicator(mineTabItem), MineFragment.class, null);
+
+        tabHost.setOnTabChangedListener(this);
 
         // Umeng
         MobclickAgent.updateOnlineConfig(this);
@@ -75,6 +77,14 @@ public class RootTabActivity extends SGActivity {
         if (isFirstLogin) {
             startActivity("sgteacher://applyteacher?fromLogin=true");
         }
+
+        RongIM.setOnReceiveMessageListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshDot();
     }
 
     private View createTabItem(String name, int iconRes) {
@@ -138,5 +148,32 @@ public class RootTabActivity extends SGActivity {
             public void onError(RongIMClient.ErrorCode errorCode) {
             }
         });
+    }
+
+    @Override
+    public boolean onReceived(Message message, int i) {
+        refreshDot();
+        return false;
+    }
+
+    @Override
+    public void onTabChanged(String tabId) {
+        refreshDot();
+    }
+
+    private void refreshDot() {
+        int unreadGroup = RongIM.getInstance().getRongIMClient().getUnreadCount(Conversation.ConversationType.PRIVATE, Conversation.ConversationType.GROUP);
+        if (unreadGroup > 0) {
+            groupDot.setVisibility(View.VISIBLE);
+        } else {
+            groupDot.setVisibility(View.GONE);
+        }
+
+        int unreadSys = RongIM.getInstance().getRongIMClient().getUnreadCount(Conversation.ConversationType.SYSTEM);
+        if (unreadSys > 0) {
+            mineDot.setVisibility(View.VISIBLE);
+        } else {
+            mineDot.setVisibility(View.GONE);
+        }
     }
 }

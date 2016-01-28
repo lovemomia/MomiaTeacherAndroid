@@ -71,6 +71,12 @@ public class MineFragment extends SGFragment implements AdapterView.OnItemClickL
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onDestroy() {
         AccountService.instance().removeListener(this);
         super.onDestroy();
@@ -174,6 +180,12 @@ public class MineFragment extends SGFragment implements AdapterView.OnItemClickL
                     if (row == 0) {
                         simpleListItem.setTitle("系统消息");
                         simpleListItem.setIcon(R.drawable.ic_mine_feedback);
+                        int unreadSys = RongIM.getInstance().getRongIMClient().getUnreadCount(Conversation.ConversationType.SYSTEM);
+                        if (unreadSys > 0) {
+                            simpleListItem.getDotView().setVisibility(View.VISIBLE);
+                        } else {
+                            simpleListItem.getDotView().setVisibility(View.GONE);
+                        }
 
                     } else {
                         simpleListItem.setTitle("关于我们");
