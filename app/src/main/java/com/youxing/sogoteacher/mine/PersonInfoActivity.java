@@ -37,6 +37,7 @@ import com.youxing.common.views.CircularImage;
 import com.youxing.sogoteacher.R;
 import com.youxing.sogoteacher.app.SGActivity;
 import com.youxing.sogoteacher.model.AccountModel;
+import com.youxing.sogoteacher.model.IMTokenModel;
 import com.youxing.sogoteacher.utils.PhotoPicker;
 import com.youxing.sogoteacher.views.SectionView;
 import com.youxing.sogoteacher.views.SimpleListItem;
@@ -51,6 +52,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 /**
  * Created by Jun Deng on 15/8/24.
@@ -629,9 +633,11 @@ public class PersonInfoActivity extends SGActivity implements StepperView.OnNumb
                     @Override
                     public void onClick(View v) {
                         AccountService.instance().logout();
+                        RongIM.getInstance().logout();
                         AccountService.instance().login(PersonInfoActivity.this, new AccountService.LoginListener() {
                             @Override
                             public void onLoginSuccess() {
+                                doRCIMConnect(3);
                             }
 
                             @Override
@@ -649,6 +655,45 @@ public class PersonInfoActivity extends SGActivity implements StepperView.OnNumb
             }
             return super.getViewForSection(convertView, parent, section);
         }
+    }
+
+    private void doRCIMConnect(final int tryTime) {
+        String imToken = AccountService.instance().account().getImToken();
+        if (imToken == null) {
+            return;
+        }
+
+        RongIM.connect(AccountService.instance().account().getImToken(), new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+                //Connect Token 失效的状态处理，需要重新获取 Token
+
+                if (tryTime > 0) {
+                    HttpService.post(Constants.domain() + "/im/token", null, IMTokenModel.class, new RequestHandler() {
+                        @Override
+                        public void onRequestFinish(Object response) {
+                            IMTokenModel model = (IMTokenModel) response;
+                            AccountService.instance().account().setImToken(model.getData());
+                            doRCIMConnect(tryTime - 1);
+                        }
+
+                        @Override
+                        public void onRequestFailed(BaseModel error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onSuccess(String userId) {
+
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+            }
+        });
     }
 
 }

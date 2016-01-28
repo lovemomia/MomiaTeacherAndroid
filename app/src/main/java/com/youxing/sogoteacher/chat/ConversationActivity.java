@@ -60,7 +60,6 @@ public class ConversationActivity extends SGActivity {
                     GroupNoticeView noticeView = GroupNoticeView.create(ConversationActivity.this);
                     noticeView.setData(RongCloudEvent.instance().getGroupCache().get(mTargetId));
                     dialog.getWindow().setContentView(noticeView);
-
                 }
             });
         }
