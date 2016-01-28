@@ -3,6 +3,7 @@ package com.youxing.sogoteacher.manager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,10 +34,14 @@ import java.util.List;
 /**
  * Created by Jun Deng on 16/1/11.
  */
-public class CourseGoingFragment extends SGFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class CourseGoingFragment extends SGFragment implements AdapterView.OnItemClickListener, View.OnClickListener,
+        SwipeRefreshLayout.OnRefreshListener {
 
     private View rootView;
     private boolean rebuild;
+
+    private SwipeRefreshLayout swipeLayout;
+    private boolean isRefresh;
 
     private ListView listView;
     private Adapter adapter;
@@ -52,12 +57,18 @@ public class CourseGoingFragment extends SGFragment implements AdapterView.OnIte
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.activity_list, null);
+            rootView = inflater.inflate(R.layout.activity_refresh_list, null);
             listView = (ListView)rootView.findViewById(R.id.listView);
             adapter = new Adapter();
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(this);
             rebuild = true;
+
+            swipeLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.refresh);
+            swipeLayout.setOnRefreshListener(this);
+            swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
         } else {
             rebuild = false;
         }
@@ -73,17 +84,24 @@ public class CourseGoingFragment extends SGFragment implements AdapterView.OnIte
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (rebuild) {
-            requestData();
-        }
+        requestData();
     }
 
     private void requestData() {
-        showLoadingDialog(getActivity());
+        if (!isRefresh) {
+            showLoadingDialog(getActivity());
+        }
+
         HttpService.get(Constants.domain() + "/teacher/course/ongoing", null, CacheType.DISABLE, CourseGoingModel.class, new RequestHandler() {
             @Override
             public void onRequestFinish(Object response) {
-                dismissDialog();
+                if (isRefresh) {
+                    isRefresh = false;
+                    swipeLayout.setRefreshing(false);
+                } else {
+                    dismissDialog();
+                }
+
                 model = (CourseGoingModel) response;
                 if (model.getData().getCourse() == null) {
 //                    showEmptyView("课程还没有开始哦～");
@@ -95,7 +113,13 @@ public class CourseGoingFragment extends SGFragment implements AdapterView.OnIte
 
             @Override
             public void onRequestFailed(BaseModel error) {
-                dismissDialog();
+                if (isRefresh) {
+                    isRefresh = false;
+                    swipeLayout.setRefreshing(false);
+                } else {
+                    dismissDialog();
+                }
+
                 getDLActivity().showDialog(getDLActivity(), error.getErrmsg());
             }
         });
@@ -145,6 +169,14 @@ public class CourseGoingFragment extends SGFragment implements AdapterView.OnIte
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("sgteacher://studentdetail?id=" +
                     student.getId())));
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        isRefresh = true;
+        isEmpty = false;
+        model = null;
+        requestData();
     }
 
     class Adapter extends BasicAdapter {

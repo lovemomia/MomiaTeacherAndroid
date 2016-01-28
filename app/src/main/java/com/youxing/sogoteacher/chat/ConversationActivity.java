@@ -1,13 +1,14 @@
 package com.youxing.sogoteacher.chat;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.view.ViewGroup;
+import android.view.View;
 
 import com.youxing.sogoteacher.R;
 import com.youxing.sogoteacher.app.SGActivity;
+import com.youxing.sogoteacher.chat.views.GroupNoticeView;
 
 import java.util.Locale;
 
@@ -41,6 +42,28 @@ public class ConversationActivity extends SGActivity {
         Intent intent = getIntent();
 
         getIntentDate(intent);
+
+        if (mConversationType == Conversation.ConversationType.GROUP) {
+            getTitleBar().getRightBtn().setIcon(R.drawable.ic_action_group);
+            getTitleBar().getRightBtn().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity("sgteacher://groupmember?id=" + mTargetId);
+                }
+            });
+            getTitleBar().getRightBtn2().setIcon(R.drawable.ic_action_notice);
+            getTitleBar().getRightBtn2().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog dialog = new AlertDialog.Builder(ConversationActivity.this).create();
+                    dialog.show();
+                    GroupNoticeView noticeView = GroupNoticeView.create(ConversationActivity.this);
+                    noticeView.setData(RongCloudEvent.instance().getGroupCache().get(mTargetId));
+                    dialog.getWindow().setContentView(noticeView);
+
+                }
+            });
+        }
     }
 
     /**

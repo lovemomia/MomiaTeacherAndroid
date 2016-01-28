@@ -100,7 +100,7 @@ public class ChatListFragment extends SGFragment implements AccountChangeListene
                             }
                         }
                         if (!exist) {
-                            RongIM.getInstance().getRongIMClient().insertMessage(Conversation.ConversationType.GROUP, String.valueOf(group.getGroupId()), "10000", InformationNotificationMessage.obtain(group.getTips()), new RongIMClient.ResultCallback(){
+                            RongIM.getInstance().getRongIMClient().insertMessage(Conversation.ConversationType.GROUP, String.valueOf(group.getGroupId()), "10000", InformationNotificationMessage.obtain("欢迎来到松果课堂~"), new RongIMClient.ResultCallback(){
                                 @Override
                                 public void onSuccess(Object o) {
                                 }

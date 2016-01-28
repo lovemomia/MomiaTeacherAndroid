@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +35,13 @@ import java.util.List;
 /**
  * Created by Jun Deng on 16/1/11.
  */
-public class CourseListFragment extends SGFragment implements AdapterView.OnItemClickListener {
+public class CourseListFragment extends SGFragment implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private View rootView;
     private boolean rebuild;
 
+    private SwipeRefreshLayout swipeLayout;
+    private boolean isRefresh;
     private ListView listView;
     private Adapter adapter;
 
@@ -71,11 +74,18 @@ public class CourseListFragment extends SGFragment implements AdapterView.OnItem
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.activity_list, null);
+            rootView = inflater.inflate(R.layout.activity_refresh_list, null);
             listView = (ListView)rootView.findViewById(R.id.listView);
             adapter = new Adapter();
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(this);
+
+            swipeLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.refresh);
+            swipeLayout.setOnRefreshListener(this);
+            swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
+
             rebuild = true;
         } else {
             rebuild = false;
@@ -95,6 +105,12 @@ public class CourseListFragment extends SGFragment implements AdapterView.OnItem
 //        if (rebuild) {
 //            requestData();
 //        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        refresh();
     }
 
     @Override
@@ -122,6 +138,10 @@ public class CourseListFragment extends SGFragment implements AdapterView.OnItem
         HttpService.get(Constants.domain() + path, params, CacheType.DISABLE, CourseListModel.class, new RequestHandler() {
             @Override
             public void onRequestFinish(Object response) {
+                if (isRefresh) {
+                    isRefresh = false;
+                    swipeLayout.setRefreshing(false);
+                }
                 CourseListModel model = (CourseListModel) response;
                 courseList.addAll(model.getData().getList());
                 if (model.getData().getNextIndex() == 0 || model.getData().getTotalCount() <= courseList.size()) {
@@ -135,6 +155,10 @@ public class CourseListFragment extends SGFragment implements AdapterView.OnItem
 
             @Override
             public void onRequestFailed(BaseModel error) {
+                if (isRefresh) {
+                    isRefresh = false;
+                    swipeLayout.setRefreshing(false);
+                }
                 getDLActivity().showDialog(getDLActivity(), error.getErrmsg());
             }
         });
@@ -148,6 +172,12 @@ public class CourseListFragment extends SGFragment implements AdapterView.OnItem
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("sgteacher://studentlist?coid=" +
                     course.getCourseId() + "&sid=" + course.getCourseSkuId() + "&status=" + status)));
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        isRefresh = true;
+        refresh();
     }
 
     class Adapter extends BasicAdapter {

@@ -15,6 +15,7 @@ public class TitleBar extends FrameLayout {
     private TextView titleTv;
     private TitleBarButton leftBtn;
     private TitleBarButton rightBtn;
+    private TitleBarButton rightBtn2;
 
     public TitleBar(Context context) {
         this(context, null);
@@ -30,6 +31,7 @@ public class TitleBar extends FrameLayout {
         titleTv = (TextView) findViewById(android.R.id.title);
         leftBtn = (TitleBarButton) findViewById(R.id.title_left_btn);
         rightBtn = (TitleBarButton) findViewById(R.id.title_right_btn);
+        rightBtn2 = (TitleBarButton) findViewById(R.id.title_right_btn2);
     }
 
     public TextView getTitleTv() {
@@ -42,5 +44,9 @@ public class TitleBar extends FrameLayout {
 
     public TitleBarButton getRightBtn() {
         return rightBtn;
+    }
+
+    public TitleBarButton getRightBtn2() {
+        return rightBtn2;
     }
 }
