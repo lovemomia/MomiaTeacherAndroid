@@ -3,6 +3,7 @@ package com.youxing.sogoteacher.material;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,12 +33,14 @@ import java.util.List;
 /**
  * Created by Jun Deng on 16/1/11.
  */
-public class TeachMaterialFragment extends SGFragment implements AdapterView.OnItemClickListener {
+public class TeachMaterialFragment extends SGFragment implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private View rootView;
     private boolean rebuild;
 
     private TitleBar titleBar;
+    private SwipeRefreshLayout swipeLayout;
+    private boolean isRefresh;
     private ListView listView;
     private Adapter adapter;
 
@@ -48,12 +51,18 @@ public class TeachMaterialFragment extends SGFragment implements AdapterView.OnI
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.fragment_mine, null);
+            rootView = inflater.inflate(R.layout.fragment_material, null);
             titleBar = (TitleBar) rootView.findViewById(R.id.titleBar);
             listView = (ListView)rootView.findViewById(R.id.listView);
             adapter = new Adapter();
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(this);
+            swipeLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.refresh);
+            swipeLayout.setOnRefreshListener(this);
+            swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
+
             rebuild = true;
         } else {
             rebuild = false;
@@ -76,6 +85,14 @@ public class TeachMaterialFragment extends SGFragment implements AdapterView.OnI
         }
     }
 
+    private void refresh() {
+        isEmpty = false;
+        isEnd = false;
+        materialList.clear();
+
+        requestData();
+    }
+
     private void requestData() {
         int start = materialList.size();
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -84,6 +101,10 @@ public class TeachMaterialFragment extends SGFragment implements AdapterView.OnI
         HttpService.get(Constants.domain() + "/teacher/material/list", params, CacheType.DISABLE, MaterialListModel.class, new RequestHandler() {
             @Override
             public void onRequestFinish(Object response) {
+                if (isRefresh) {
+                    isRefresh = false;
+                    swipeLayout.setRefreshing(false);
+                }
                 MaterialListModel model = (MaterialListModel) response;
                 materialList.addAll(model.getData().getList());
                 if (model.getData().getNextIndex() == 0 || model.getData().getTotalCount() <= materialList.size()) {
@@ -97,6 +118,10 @@ public class TeachMaterialFragment extends SGFragment implements AdapterView.OnI
 
             @Override
             public void onRequestFailed(BaseModel error) {
+                if (isRefresh) {
+                    isRefresh = false;
+                    swipeLayout.setRefreshing(false);
+                }
                 getDLActivity().showDialog(getDLActivity(), error.getErrmsg());
             }
         });
@@ -110,6 +135,12 @@ public class TeachMaterialFragment extends SGFragment implements AdapterView.OnI
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("sgteacher://web?url=" + URLEncoder.encode(url))));
         }
 
+    }
+
+    @Override
+    public void onRefresh() {
+        isRefresh = true;
+        refresh();
     }
 
     class Adapter extends BasicAdapter {
