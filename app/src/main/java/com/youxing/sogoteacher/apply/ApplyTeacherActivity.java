@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -26,6 +25,7 @@ import com.youxing.common.adapter.GroupStyleAdapter;
 import com.youxing.common.app.Constants;
 import com.youxing.common.model.BaseModel;
 import com.youxing.common.model.UploadImageModel;
+import com.youxing.common.services.account.AccountService;
 import com.youxing.common.services.http.CacheType;
 import com.youxing.common.services.http.HttpService;
 import com.youxing.common.services.http.RequestHandler;
@@ -35,6 +35,7 @@ import com.youxing.common.views.CircularImage;
 import com.youxing.sogoteacher.R;
 import com.youxing.sogoteacher.app.SGActivity;
 import com.youxing.sogoteacher.apply.views.AddExpItem;
+import com.youxing.sogoteacher.model.AccountModel;
 import com.youxing.sogoteacher.model.ApplyTeacherModel;
 import com.youxing.sogoteacher.model.Education;
 import com.youxing.sogoteacher.model.Experience;
@@ -70,7 +71,6 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
     private ApplyTeacherModel model;
     private int status;
     private boolean fromLogin; //是否是从第一次打开App登录后跳进来的
-    private Bitmap picBmp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -325,7 +325,6 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
                     if (photoPicker == null) {
                         photoPicker = new PhotoPicker(ApplyTeacherActivity.this);
                     }
-                    this.picBmp = photoPicker.parseThumbnail(strImgPath);
                     requestUploadImage(new File(strImgPath));
                 }
             }
@@ -409,9 +408,32 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
         HttpService.uploadImage(file, new RequestHandler() {
             @Override
             public void onRequestFinish(Object response) {
-                dismissDialog();
+//                dismissDialog();
                 UploadImageModel uploadImageModel = (UploadImageModel) response;
                 model.getData().setPic(uploadImageModel.getData().getPath());
+//                adapter.notifyDataSetChanged();
+
+                requestUpdateAvatar(uploadImageModel.getData().getPath());
+            }
+
+            @Override
+            public void onRequestFailed(BaseModel error) {
+                dismissDialog();
+                showDialog(ApplyTeacherActivity.this, error.getErrmsg());
+            }
+        });
+    }
+
+    private void requestUpdateAvatar(String url) {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("avatar", url));
+        HttpService.post(Constants.domain() + "/user/avatar", params, AccountModel.class, new RequestHandler() {
+            @Override
+            public void onRequestFinish(Object response) {
+                dismissDialog();
+
+                AccountModel model = (AccountModel) response;
+                AccountService.instance().dispatchAccountChanged(model.getData());
                 adapter.notifyDataSetChanged();
             }
 
@@ -465,14 +487,15 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
                         View view = LayoutInflater.from(ApplyTeacherActivity.this).inflate(R.layout.layout_personinfo_avatar_item, null);
                         TextView title = (TextView) view.findViewById(R.id.title);
                         title.setText("生活照");
-                        CircularImage avatar = (CircularImage) view.findViewById(R.id.avatar);
-                        if (picBmp != null) {
-                            avatar.setImageBitmap(picBmp);
 
+                        CircularImage avatar = (CircularImage) view.findViewById(R.id.avatar);
+                        avatar.setDefaultImageResId(R.drawable.ic_default_avatar);
+                        if (!TextUtils.isEmpty(AccountService.instance().account().getAvatar())) {
+                            avatar.setImageUrl(AccountService.instance().account().getAvatar());
                         } else {
-                            avatar.setDefaultImageResId(R.drawable.ic_default_avatar);
                             avatar.setImageUrl(model.getData().getPic());
                         }
+
                         view.findViewById(R.id.arrow).setVisibility(status == 1 ? View.GONE : View.VISIBLE);
 
                         return view;

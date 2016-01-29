@@ -116,7 +116,8 @@ public class PersonInfoActivity extends SGActivity implements StepperView.OnNumb
         int row = indexPath.row;
         if (section == 0) {
             if (row == 0) {
-                pickPhoto();
+//                pickPhoto();
+
             } else if (row == 1) {
                 // 昵称
                 showInputDialog("请输入昵称", new OnInputDoneListener() {

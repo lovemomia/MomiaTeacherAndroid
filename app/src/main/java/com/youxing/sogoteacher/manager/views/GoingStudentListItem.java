@@ -50,7 +50,7 @@ public class GoingStudentListItem extends LinearLayout {
         iconIv.setImageUrl(student.getAvatar());
         nameTv.setText(student.getName());
         ageTv.setText(student.getAge());
-        if ("男".endsWith(student.getSex())) {
+        if ("男".equals(student.getSex())) {
             sexIv.setImageResource(R.drawable.ic_boy);
         } else {
             sexIv.setImageResource(R.drawable.ic_girl);
