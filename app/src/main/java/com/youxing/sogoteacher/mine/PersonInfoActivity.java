@@ -659,6 +659,9 @@ public class PersonInfoActivity extends SGActivity implements StepperView.OnNumb
     }
 
     private void doRCIMConnect(final int tryTime) {
+        if (!AccountService.instance().isLogin()) {
+            return;
+        }
         String imToken = AccountService.instance().account().getImToken();
         if (imToken == null) {
             return;

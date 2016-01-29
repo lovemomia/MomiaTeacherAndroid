@@ -85,18 +85,17 @@ public class ChatListFragment extends SGFragment implements AccountChangeListene
 
                 if (grouplist.size() > 0 && RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
                     List<Conversation> conversations = RongIM.getInstance().getRongIMClient().getConversationList();
-                    if (conversations == null) {
-                        return;
-                    }
                     for (IMGroup group : model.getData()) {
                         boolean exist = false;
-                        for (Conversation cvs : conversations) {
-                            if (cvs.getConversationType() != Conversation.ConversationType.GROUP) {
-                                continue;
-                            }
-                            if (cvs.getTargetId().equals(String.valueOf(group.getGroupId()))) {
-                                exist = true;
-                                break;
+                        if (conversations != null) {
+                            for (Conversation cvs : conversations) {
+                                if (cvs.getConversationType() != Conversation.ConversationType.GROUP) {
+                                    continue;
+                                }
+                                if (cvs.getTargetId().equals(String.valueOf(group.getGroupId()))) {
+                                    exist = true;
+                                    break;
+                                }
                             }
                         }
                         if (!exist) {

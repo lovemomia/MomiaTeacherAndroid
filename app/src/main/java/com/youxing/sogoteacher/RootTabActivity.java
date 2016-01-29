@@ -112,6 +112,9 @@ public class RootTabActivity extends SGActivity implements RongIMClient.OnReceiv
     }
 
     private void doRCIMConnect(final int tryTime) {
+        if (!AccountService.instance().isLogin()) {
+            return;
+        }
         String imToken = AccountService.instance().account().getImToken();
         if (imToken == null) {
             return;
