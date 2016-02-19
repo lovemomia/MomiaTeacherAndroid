@@ -80,7 +80,7 @@ public class ChatListFragment extends SGFragment implements AccountChangeListene
                     String name = imGroup.getGroupName();
                     grouplist.add(new Group(id, name, null));
 
-                    RongCloudEvent.instance().getGroupCache().put(id, imGroup);
+//                    RongCloudEvent.instance().getGroupCache().put(id, imGroup);
                 }
 
                 if (grouplist.size() > 0 && RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
