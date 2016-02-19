@@ -87,7 +87,6 @@ public class CourseListFragment extends SGFragment implements AdapterView.OnItem
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        requestData();
     }
 
     @Override
