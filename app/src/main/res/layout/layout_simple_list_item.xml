@@ -29,7 +29,7 @@
         android:textColor="@color/text_deep_gray"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:textSize="@dimen/text_small"/>
+        android:textSize="@dimen/text_medium"/>
 
     <View android:id="@+id/dot"
         android:layout_height="8dp"
