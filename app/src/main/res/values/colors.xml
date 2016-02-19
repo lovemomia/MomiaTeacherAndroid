@@ -8,7 +8,7 @@
     <color name="bg_section">#F4F4F4</color>
     <color name="bg_button_normal">#f67531</color>
     <color name="bg_button_selected">#CD3333</color>
-    <color name="bg_button_disable">#999999</color>
+    <color name="bg_button_disable">#F7F8FA</color>
     <color name="bg_divider">#f1f1f1</color>
     <color name="bg_image">#CCCCCC</color>
     <color name="bg_input">#F7F8FA</color>

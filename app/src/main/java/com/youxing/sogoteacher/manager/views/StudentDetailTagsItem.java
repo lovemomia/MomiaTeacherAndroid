@@ -2,6 +2,7 @@ package com.youxing.sogoteacher.manager.views;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +23,9 @@ import java.util.List;
 public class StudentDetailTagsItem extends LinearLayout implements View.OnClickListener {
 
     private static final float TAG_TEXT_SIZE = 12;
-    private static final int TEXT_LEFT_PADDING = 8;
-    private static final int TEXT_TOP_PADDING = 5;
-    private static final int PADDING = 12;
+    private static final int TEXT_LEFT_PADDING = 20;
+    private static final int TEXT_TOP_PADDING = 12;
+    private static final int PADDING = 20;
 
     private LinearLayout contentLay;
 
@@ -61,18 +62,20 @@ public class StudentDetailTagsItem extends LinearLayout implements View.OnClickL
                 continue;
             }
 
-            int textWidth = computeTextSize(tag.getName(), TAG_TEXT_SIZE) + 2 * TEXT_LEFT_PADDING;
+            TextView tv = new TextView(getContext());
+            tv.setBackgroundResource(R.drawable.bg_student_tag);
+            tv.setTextSize(TAG_TEXT_SIZE);
+
+            int textWidth = computeTextSize(tv, tag.getName()) + 2 * TEXT_LEFT_PADDING;
             width += PADDING + textWidth;
-            if (width > (layWidth - 80)) {
+            if (width > (layWidth)) {
                 lineLay = new LinearLayout(getContext());
                 lineLay.setPadding(0, 0, 0, PADDING);
                 contentLay.addView(lineLay);
                 width = PADDING + textWidth;
             }
 
-            TextView tv = new TextView(getContext());
-            tv.setBackgroundResource(R.drawable.bg_student_tag);
-            tv.setTextSize(TAG_TEXT_SIZE);
+
             setTextAppear(tv, tag.isSelected());
             LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             if (lineLay.getChildCount() == 0) {
@@ -91,11 +94,11 @@ public class StudentDetailTagsItem extends LinearLayout implements View.OnClickL
         }
     }
 
-    private int computeTextSize(String text, float textSize) {
-        Paint paint = new Paint();
-        paint.setTextSize(textSize);
-        float size = paint.measureText(text);
-        return (int)size;
+    private int computeTextSize(TextView textView, String text) {
+        TextPaint paint = textView.getPaint();
+        // 得到使用该paint写上text的时候,像素为多少
+        float textLength = paint.measureText(text);
+        return (int)textLength;
     }
 
     private void setTextAppear(TextView tv, boolean selected) {

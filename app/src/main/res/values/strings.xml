@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">松果教师</string>
+    <string name="app_name">松果老师</string>
     <string name="title_activity_root">RootActivity</string>
 
     <string name="hello_world">Hello world!</string>
