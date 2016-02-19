@@ -48,10 +48,10 @@ public class WebActivity extends SGWebActivity {
 		if (AccountService.instance().isLogin()) {
 			synCookies(this, domain, "utoken="
 					+ AccountService.instance().account().getToken()
-					+ "; path=/; domain=nuomi.com");
+					+ "; path=/; domain=" + (Constants.DEBUG ? "momia.cn" : "sogokids.com"));
 		} else {
 			synCookies(this, domain,
-					"utoken=; path=/; domain=nuomi.com");
+					"utoken=; path=/; domain=" + (Constants.DEBUG ? "momia.cn" : "sogokids.com"));
 		}
 	}
 
