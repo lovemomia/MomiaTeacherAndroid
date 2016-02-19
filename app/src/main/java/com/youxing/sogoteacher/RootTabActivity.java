@@ -79,6 +79,8 @@ public class RootTabActivity extends SGActivity implements RongIMClient.OnReceiv
         }
 
         RongIM.setOnReceiveMessageListener(this);
+
+        setSwipeBackEnable(false);
     }
 
     @Override
@@ -106,7 +108,7 @@ public class RootTabActivity extends SGActivity implements RongIMClient.OnReceiv
         if (t - mPrevbackPress <= 1000) {
             super.onBackPressed();
         } else {
-            Toast.makeText(this, "再按一次返回退出松果亲子", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "再按一次返回退出", Toast.LENGTH_SHORT).show();
         }
         mPrevbackPress = t;
     }

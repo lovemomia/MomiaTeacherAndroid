@@ -37,9 +37,6 @@ import java.util.List;
 public class CourseGoingFragment extends SGFragment implements AdapterView.OnItemClickListener, View.OnClickListener,
         SwipeRefreshLayout.OnRefreshListener {
 
-    private View rootView;
-    private boolean rebuild;
-
     private SwipeRefreshLayout swipeLayout;
     private boolean isRefresh;
 
@@ -56,27 +53,16 @@ public class CourseGoingFragment extends SGFragment implements AdapterView.OnIte
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.activity_refresh_list, null);
-            listView = (ListView)rootView.findViewById(R.id.listView);
-            adapter = new Adapter();
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(this);
-            rebuild = true;
+        View rootView = inflater.inflate(R.layout.activity_refresh_list, null);
+        listView = (ListView)rootView.findViewById(R.id.listView);
+        adapter = new Adapter();
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
 
-            swipeLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.refresh);
-            swipeLayout.setOnRefreshListener(this);
-            swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
-                    android.R.color.holo_orange_light, android.R.color.holo_red_light);
-
-        } else {
-            rebuild = false;
-        }
-
-        ViewGroup parent = (ViewGroup) rootView.getParent();
-        if (parent != null) {
-            parent.removeView(rootView);
-        }
+        swipeLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.refresh);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
 
         return rootView;
     }

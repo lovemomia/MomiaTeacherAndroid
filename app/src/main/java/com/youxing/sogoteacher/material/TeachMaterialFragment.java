@@ -35,9 +35,6 @@ import java.util.List;
  */
 public class TeachMaterialFragment extends SGFragment implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private View rootView;
-    private boolean rebuild;
-
     private TitleBar titleBar;
     private SwipeRefreshLayout swipeLayout;
     private boolean isRefresh;
@@ -50,28 +47,16 @@ public class TeachMaterialFragment extends SGFragment implements AdapterView.OnI
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.fragment_material, null);
-            titleBar = (TitleBar) rootView.findViewById(R.id.titleBar);
-            listView = (ListView)rootView.findViewById(R.id.listView);
-            adapter = new Adapter();
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(this);
-            swipeLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.refresh);
-            swipeLayout.setOnRefreshListener(this);
-            swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
-                    android.R.color.holo_orange_light, android.R.color.holo_red_light);
-
-
-            rebuild = true;
-        } else {
-            rebuild = false;
-        }
-
-        ViewGroup parent = (ViewGroup) rootView.getParent();
-        if (parent != null) {
-            parent.removeView(rootView);
-        }
+        View rootView = inflater.inflate(R.layout.fragment_material, null);
+        titleBar = (TitleBar) rootView.findViewById(R.id.titleBar);
+        listView = (ListView)rootView.findViewById(R.id.listView);
+        adapter = new Adapter();
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
+        swipeLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.refresh);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
 
         return rootView;
     }
@@ -80,9 +65,7 @@ public class TeachMaterialFragment extends SGFragment implements AdapterView.OnI
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (rebuild) {
-            titleBar.getTitleTv().setText("教材教具");
-        }
+        titleBar.getTitleTv().setText("教材教具");
     }
 
     private void refresh() {
@@ -130,7 +113,7 @@ public class TeachMaterialFragment extends SGFragment implements AdapterView.OnI
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (position < materialList.size()) {
-            MaterialListModel.Material material = materialList.get(0);
+            MaterialListModel.Material material = materialList.get(position);
             String url = "http://" + (Constants.DEBUG ? "m.momia.cn" : "m.sogokids.com") + "/course/material?id=" + material.getId();
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("sgteacher://web?url=" + URLEncoder.encode(url))));
         }

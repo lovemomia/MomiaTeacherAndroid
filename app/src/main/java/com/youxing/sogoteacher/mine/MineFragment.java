@@ -30,31 +30,18 @@ import io.rong.imlib.model.Conversation;
  */
 public class MineFragment extends SGFragment implements AdapterView.OnItemClickListener, AccountChangeListener {
 
-    private View rootView;
-    private boolean rebuild;
-
     private TitleBar titleBar;
     private ListView listView;
     private Adapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.fragment_mine, null);
-            titleBar = (TitleBar) rootView.findViewById(R.id.titleBar);
-            listView = (ListView)rootView.findViewById(R.id.listView);
-            adapter = new Adapter();
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(this);
-            rebuild = true;
-        } else {
-            rebuild = false;
-        }
-
-        ViewGroup parent = (ViewGroup) rootView.getParent();
-        if (parent != null) {
-            parent.removeView(rootView);
-        }
+        View rootView = inflater.inflate(R.layout.fragment_mine, null);
+        titleBar = (TitleBar) rootView.findViewById(R.id.titleBar);
+        listView = (ListView)rootView.findViewById(R.id.listView);
+        adapter = new Adapter();
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
 
         return rootView;
     }
@@ -63,11 +50,9 @@ public class MineFragment extends SGFragment implements AdapterView.OnItemClickL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (rebuild) {
-            titleBar.getTitleTv().setText("我的");
+        titleBar.getTitleTv().setText("我的");
 
-            AccountService.instance().addListener(this);
-        }
+        AccountService.instance().addListener(this);
     }
 
     @Override

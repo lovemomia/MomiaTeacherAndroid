@@ -37,9 +37,6 @@ import java.util.List;
  */
 public class CourseListFragment extends SGFragment implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private View rootView;
-    private boolean rebuild;
-
     private SwipeRefreshLayout swipeLayout;
     private boolean isRefresh;
     private ListView listView;
@@ -73,28 +70,16 @@ public class CourseListFragment extends SGFragment implements AdapterView.OnItem
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.activity_refresh_list, null);
-            listView = (ListView)rootView.findViewById(R.id.listView);
-            adapter = new Adapter();
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(this);
+        View rootView = inflater.inflate(R.layout.activity_refresh_list, null);
+        listView = (ListView)rootView.findViewById(R.id.listView);
+        adapter = new Adapter();
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
 
-            swipeLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.refresh);
-            swipeLayout.setOnRefreshListener(this);
-            swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
-                    android.R.color.holo_orange_light, android.R.color.holo_red_light);
-
-
-            rebuild = true;
-        } else {
-            rebuild = false;
-        }
-
-        ViewGroup parent = (ViewGroup) rootView.getParent();
-        if (parent != null) {
-            parent.removeView(rootView);
-        }
+        swipeLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.refresh);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
 
         return rootView;
     }
@@ -102,9 +87,7 @@ public class CourseListFragment extends SGFragment implements AdapterView.OnItem
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        if (rebuild) {
-//            requestData();
-//        }
+        requestData();
     }
 
     @Override
