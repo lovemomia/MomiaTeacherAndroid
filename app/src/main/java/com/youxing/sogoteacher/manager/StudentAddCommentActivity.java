@@ -70,7 +70,7 @@ public class StudentAddCommentActivity extends SGActivity implements InputListIt
     private void requestData() {
         showLoadingDialog(this);
 
-        List<NameValuePair> params = new ArrayList<>();
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("coid", coid));
         params.add(new BasicNameValuePair("sid", sid));
         params.add(new BasicNameValuePair("cid", cid));
@@ -102,7 +102,7 @@ public class StudentAddCommentActivity extends SGActivity implements InputListIt
         }
         showLoadingDialog(this);
 
-        List<NameValuePair> params = new ArrayList<>();
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("coid", coid));
         params.add(new BasicNameValuePair("sid", sid));
         params.add(new BasicNameValuePair("cid", cid));

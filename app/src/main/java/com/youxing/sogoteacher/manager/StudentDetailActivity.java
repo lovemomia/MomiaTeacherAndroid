@@ -37,7 +37,7 @@ public class StudentDetailActivity extends SGActivity implements AdapterView.OnI
     private Adapter adapter;
 
     private Student student;
-    private List<StudentDetailModel.StudentDetailComment> commentList = new ArrayList<>();
+    private List<StudentDetailModel.StudentDetailComment> commentList = new ArrayList<StudentDetailModel.StudentDetailComment>();
     private boolean isEmpty;
     private boolean isEnd;
 

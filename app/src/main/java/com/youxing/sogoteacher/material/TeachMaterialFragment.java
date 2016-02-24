@@ -41,7 +41,7 @@ public class TeachMaterialFragment extends SGFragment implements AdapterView.OnI
     private ListView listView;
     private Adapter adapter;
 
-    private List<MaterialListModel.Material> materialList = new ArrayList<>();
+    private List<MaterialListModel.Material> materialList = new ArrayList<MaterialListModel.Material>();
     private boolean isEmpty;
     private boolean isEnd;
 

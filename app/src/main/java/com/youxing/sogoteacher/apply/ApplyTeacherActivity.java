@@ -140,7 +140,7 @@ public class ApplyTeacherActivity extends SGActivity implements AdapterView.OnIt
         }
         showLoadingDialog(this);
 
-        List<NameValuePair> params = new ArrayList<>();
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("teacher", JSON.toJSONString(model.getData())));
         HttpService.post(Constants.domain() + "/teacher/signup", params, BaseModel.class, new RequestHandler() {
             @Override

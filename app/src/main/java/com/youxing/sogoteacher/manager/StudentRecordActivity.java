@@ -65,7 +65,7 @@ public class StudentRecordActivity extends SGActivity implements InputListItem.I
     private void requestData() {
         showLoadingDialog(this);
 
-        List<NameValuePair> params = new ArrayList<>();
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("coid", coid));
         params.add(new BasicNameValuePair("sid", sid));
         params.add(new BasicNameValuePair("cid", cid));
@@ -97,9 +97,9 @@ public class StudentRecordActivity extends SGActivity implements InputListItem.I
         }
         showLoadingDialog(this);
 
-        Map<String, Object> recordMap = new HashMap<>();
+        Map<String, Object> recordMap = new HashMap<String, Object>();
         recordMap.put("content", model.getData().getContent());
-        List<Long> tagsList = new ArrayList<>();
+        List<Long> tagsList = new ArrayList<Long>();
         for (StudentRecordModel.StudentRecordTag tag : model.getData().getTags()) {
             if (tag.isSelected()) {
                 tagsList.add(tag.getId());
@@ -107,7 +107,7 @@ public class StudentRecordActivity extends SGActivity implements InputListItem.I
         }
         recordMap.put("tags", tagsList);
 
-        List<NameValuePair> params = new ArrayList<>();
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("coid", coid));
         params.add(new BasicNameValuePair("sid", sid));
         params.add(new BasicNameValuePair("cid", cid));

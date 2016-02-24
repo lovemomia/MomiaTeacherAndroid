@@ -60,8 +60,8 @@ public class RongCloudEvent implements RongIM.UserInfoProvider, RongIM.GroupInfo
         RongIM.setGroupInfoProvider(this, true);//设置群组信息提供者。
     }
 
-    private Map<String, User> userCache = new HashMap<>();
-    private Map<String, IMGroup> groupCache = new HashMap<>();
+    private Map<String, User> userCache = new HashMap<String, User>();
+    private Map<String, IMGroup> groupCache = new HashMap<String, IMGroup>();
 
     public Map<String, User> getUserCache() {
         return userCache;
@@ -80,7 +80,7 @@ public class RongCloudEvent implements RongIM.UserInfoProvider, RongIM.GroupInfo
             return rcGroup;
 
         } else {
-            List<NameValuePair> params = new ArrayList<>();
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("id", groupId));
             HttpService.get(Constants.domain() + "/im/group", params, CacheType.DISABLE, IMGroupModel.class, new RequestHandler() {
                 @Override
@@ -109,7 +109,7 @@ public class RongCloudEvent implements RongIM.UserInfoProvider, RongIM.GroupInfo
             return rcUser;
 
         } else {
-            List<NameValuePair> params = new ArrayList<>();
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("uid", userId));
             HttpService.get(Constants.domain() + "/im/user", params, CacheType.DISABLE, IMUserModel.class, new RequestHandler() {
                 @Override

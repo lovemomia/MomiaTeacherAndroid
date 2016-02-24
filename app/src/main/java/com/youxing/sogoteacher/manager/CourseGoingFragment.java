@@ -113,7 +113,7 @@ public class CourseGoingFragment extends SGFragment implements AdapterView.OnIte
 
     private void requestCheckin(final Student student) {
         showLoadingDialog(getActivity());
-        List<NameValuePair> params = new ArrayList<>();
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("uid", String.valueOf(student.getUserId())));
         params.add(new BasicNameValuePair("pid", String.valueOf(student.getPackageId())));
         params.add(new BasicNameValuePair("coid", String.valueOf(model.getData().getCourse().getCourseId())));

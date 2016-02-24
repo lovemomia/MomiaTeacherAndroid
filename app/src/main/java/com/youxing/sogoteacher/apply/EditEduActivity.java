@@ -79,7 +79,7 @@ public class EditEduActivity extends SGActivity implements AdapterView.OnItemCli
         }
         showLoadingDialog(this);
 
-        List<NameValuePair> params = new ArrayList<>();
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("education", JSON.toJSONString(model)));
         HttpService.post(Constants.domain() + "/teacher/education", params, EducationModel.class, new RequestHandler() {
             @Override
@@ -109,7 +109,7 @@ public class EditEduActivity extends SGActivity implements AdapterView.OnItemCli
     private void remove() {
         showLoadingDialog(this);
 
-        List<NameValuePair> params = new ArrayList<>();
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("id", String.valueOf(model.getId())));
         HttpService.post(Constants.domain() + "/teacher/education/delete", params, BaseModel.class, new RequestHandler() {
             @Override
@@ -179,17 +179,17 @@ public class EditEduActivity extends SGActivity implements AdapterView.OnItemCli
     private void chooseTime() {
         final TwoLevelWheelView wheelView = TwoLevelWheelView.create(EditEduActivity.this);
 
-        List<Map> data = new ArrayList<>();
+        List<Map> data = new ArrayList<Map>();
         List<String> list = Arrays.asList("2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009",
                 "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000");
         for (int i = 0; i < list.size(); i++) {
             String key = list.get(i);
-            List<String> value = new ArrayList<>();
+            List<String> value = new ArrayList<String>();
             value.add("至今");
             for (int j = 0; j <= i; j++) {
                 value.add(list.get(j));
             }
-            Map<String, List> map = new HashMap<>();
+            Map<String, List> map = new HashMap<String, List>();
             map.put(key, value);
             data.add(map);
         }
