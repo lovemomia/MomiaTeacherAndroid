@@ -146,7 +146,7 @@ public class MineFragment extends SGFragment implements AdapterView.OnItemClickL
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(Intent.ACTION_VIEW,
-                                    Uri.parse("duola://login"));
+                                    Uri.parse("sgteacher://login"));
                             startActivity(intent);
                         }
                     });

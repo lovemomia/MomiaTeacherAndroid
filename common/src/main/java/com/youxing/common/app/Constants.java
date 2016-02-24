@@ -7,20 +7,20 @@ package com.youxing.common.app;
  */
 public class Constants {
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     public static final String REQUEST_FAILED_FOR_NET = "网络异常，请稍后再试";
 
     public static final String WECHAT_APP_ID = "wx50b2ac03c88ad6e7";
 
-    public static final String DOMAIN_ONLINE = "http://i.duolaqinzi.com";
+    public static final String DOMAIN_ONLINE = "http://i.sogokids.com";
     public static final String DOMAIN_QA = "http://i.momia.cn";
 
-    public static final String DOMAIN_ONLINE_HTTPS = "https://i.duolaqinzi.com";
+    public static final String DOMAIN_ONLINE_HTTPS = "https://i.sogokids.com";
     public static final String DOMAIN_QA_HTTPS = "https://i.momia.cn";
 
-    public static final String DOMAIN_ONLINE_UPLOAD_IMAGE = "http://s.duolaqinzi.com";
-    public static final String DOMAIN_QA_UPLOAD_IMAGE = "http://upload.momia.cn";
+    public static final String DOMAIN_ONLINE_UPLOAD_IMAGE = "http://s.sogokids.com";
+    public static final String DOMAIN_QA_UPLOAD_IMAGE = "http://s.momia.cn";
 
     public static String domain() {
         if (DEBUG) {

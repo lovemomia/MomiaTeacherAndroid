@@ -28,7 +28,7 @@ public class ServerErrorHandler {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         AccountService.instance().dispatchAccountChanged(null);
-                        activity.startActivity("duola://login");
+                        activity.startActivity("sgteacher://login");
                     }
                 });
             }

@@ -177,7 +177,7 @@ public class YXApplication extends Application {
 
             if (page.needLogin && !AccountService.instance().isLogin()) {
                 Intent loginIntent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("duola://login"));
+                        Uri.parse("sgteacher://login"));
                 loginIntent.putExtra("_destination", uri.toString());
                 intent = loginIntent;
             }

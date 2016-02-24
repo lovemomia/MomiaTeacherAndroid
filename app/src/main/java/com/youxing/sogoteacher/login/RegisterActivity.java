@@ -60,7 +60,7 @@ public class RegisterActivity extends SGActivity implements View.OnClickListener
             }
 
         } else if (v.getId() == R.id.register_service_tv) {
-            startActivity("duola://web?title=用户协议&url=http://www.duolaqinzi.com/agreement.html");
+            startActivity("sgteacher://web?title=用户协议&url=http://www.duolaqinzi.com/agreement.html");
 
         } else if (v.getId() == R.id.register_get_code_btn) {
             if (checkPhone()) {

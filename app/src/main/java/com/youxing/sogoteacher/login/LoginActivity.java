@@ -43,7 +43,7 @@ public class LoginActivity extends SGActivity implements View.OnClickListener {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("duola://register"));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sgteacher://register"));
                 startActivityForResult(intent, REQUEST_CODE_REGISTER);
             }
 
@@ -57,7 +57,7 @@ public class LoginActivity extends SGActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.login_forget_pwd) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("duola://forgetpwd"));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sgteacher://forgetpwd"));
             startActivityForResult(intent, REQUEST_CODE_FORGETPWD);
 
         } else if (v.getId() == R.id.login_btn) {
